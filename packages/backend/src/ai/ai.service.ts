@@ -192,12 +192,21 @@ export class AIService {
     fileAnalysis?: FileAnalysis
   ): Promise<SecurityIssue[]> {
     try {
+      // First, get static analysis results if available
+      let staticVulnerabilities: any[] = [];
+      if (fileAnalysis?.securityVulnerabilities) {
+        staticVulnerabilities = fileAnalysis.securityVulnerabilities;
+      }
+
       const request: AIExplanationRequest = {
         type: ExplanationType.SECURITY_ANALYSIS,
         context: {
           code,
           filePath,
           fileAnalysis,
+          additionalContext: staticVulnerabilities.length > 0 
+            ? `Static analysis found ${staticVulnerabilities.length} potential security issues: ${staticVulnerabilities.map(v => v.title).join(', ')}`
+            : undefined,
         },
         options: {
           includeSecurityAnalysis: true,
@@ -206,9 +215,20 @@ export class AIService {
       };
 
       const response = await this.generateExplanation(request);
-      return response.securityIssues || [];
+      
+      // Combine static analysis results with AI analysis
+      const aiIssues = response.securityIssues || [];
+      const combinedIssues = [...staticVulnerabilities.map(this.mapStaticToAISecurityIssue), ...aiIssues];
+      
+      return combinedIssues;
     } catch (error) {
       this.logger.error(`Security analysis failed for ${filePath}:`, error.message);
+      
+      // Return static analysis results as fallback
+      if (fileAnalysis?.securityVulnerabilities) {
+        return fileAnalysis.securityVulnerabilities.map(this.mapStaticToAISecurityIssue);
+      }
+      
       return [];
     }
   }
@@ -216,15 +236,26 @@ export class AIService {
   async analyzeCodePerformance(
     code: string,
     filePath: string,
-    complexity?: ComplexityMetrics
+    complexity?: ComplexityMetrics,
+    fileAnalysis?: FileAnalysis
   ): Promise<PerformanceIssue[]> {
     try {
+      // First, get static analysis results if available
+      let staticIssues: any[] = [];
+      if (fileAnalysis?.performanceIssues) {
+        staticIssues = fileAnalysis.performanceIssues;
+      }
+
       const request: AIExplanationRequest = {
         type: ExplanationType.PERFORMANCE_ANALYSIS,
         context: {
           code,
           filePath,
           complexity,
+          fileAnalysis,
+          additionalContext: staticIssues.length > 0 
+            ? `Static analysis found ${staticIssues.length} performance issues: ${staticIssues.map(i => i.title).join(', ')}`
+            : undefined,
         },
         options: {
           includePerformanceAnalysis: true,
@@ -233,9 +264,20 @@ export class AIService {
       };
 
       const response = await this.generateExplanation(request);
-      return response.performanceIssues || [];
+      
+      // Combine static analysis results with AI analysis
+      const aiIssues = response.performanceIssues || [];
+      const combinedIssues = [...staticIssues.map(this.mapStaticToAIPerformanceIssue), ...aiIssues];
+      
+      return combinedIssues;
     } catch (error) {
       this.logger.error(`Performance analysis failed for ${filePath}:`, error.message);
+      
+      // Return static analysis results as fallback
+      if (fileAnalysis?.performanceIssues) {
+        return fileAnalysis.performanceIssues.map(this.mapStaticToAIPerformanceIssue);
+      }
+      
       return [];
     }
   }
@@ -898,5 +940,97 @@ export class AIService {
 
   async getCacheStats(): Promise<any> {
     return this.cacheService.getStats();
+  }
+
+  private mapStaticToAISecurityIssue = (staticVuln: any): SecurityIssue => {
+    return {
+      type: this.mapSecurityVulnType(staticVuln.type),
+      severity: this.mapSecuritySeverity(staticVuln.severity),
+      title: staticVuln.title,
+      description: staticVuln.description,
+      location: staticVuln.location ? {
+        line: staticVuln.location.start.line,
+        column: staticVuln.location.start.column,
+      } : undefined,
+      recommendation: staticVuln.recommendation,
+      cweId: staticVuln.cweId,
+    };
+  };
+
+  private mapStaticToAIPerformanceIssue = (staticIssue: any): PerformanceIssue => {
+    return {
+      type: this.mapPerformanceIssueType(staticIssue.type),
+      severity: this.mapPerformanceSeverity(staticIssue.severity),
+      title: staticIssue.title,
+      description: staticIssue.description,
+      location: staticIssue.location ? {
+        line: staticIssue.location.start.line,
+        column: staticIssue.location.start.column,
+      } : undefined,
+      recommendation: staticIssue.recommendation,
+      estimatedImpact: staticIssue.estimatedImpact,
+    };
+  };
+
+  private mapSecurityVulnType(staticType: string): SecurityIssue['type'] {
+    switch (staticType) {
+      case 'sql_injection':
+        return 'vulnerability';
+      case 'xss':
+        return 'vulnerability';
+      case 'command_injection':
+        return 'vulnerability';
+      case 'hardcoded_secrets':
+        return 'configuration';
+      case 'insecure_crypto':
+        return 'best_practice';
+      default:
+        return 'vulnerability';
+    }
+  }
+
+  private mapSecuritySeverity(staticSeverity: string): SecurityIssue['severity'] {
+    switch (staticSeverity.toLowerCase()) {
+      case 'critical':
+        return 'critical';
+      case 'high':
+        return 'high';
+      case 'medium':
+        return 'medium';
+      case 'low':
+        return 'low';
+      default:
+        return 'medium';
+    }
+  }
+
+  private mapPerformanceIssueType(staticType: string): PerformanceIssue['type'] {
+    switch (staticType) {
+      case 'algorithmic_complexity':
+        return 'algorithm';
+      case 'memory_leak':
+        return 'memory';
+      case 'blocking_operation':
+        return 'cpu';
+      case 'frequent_dom_access':
+        return 'io';
+      case 'database_n_plus_one':
+        return 'io';
+      default:
+        return 'bottleneck';
+    }
+  }
+
+  private mapPerformanceSeverity(staticSeverity: string): PerformanceIssue['severity'] {
+    switch (staticSeverity.toLowerCase()) {
+      case 'high':
+        return 'high';
+      case 'medium':
+        return 'medium';
+      case 'low':
+        return 'low';
+      default:
+        return 'medium';
+    }
   }
 }

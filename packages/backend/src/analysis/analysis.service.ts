@@ -13,6 +13,8 @@ import { TypeScriptAnalyzer } from './analyzers/typescript.analyzer';
 import { JavaScriptAnalyzer } from './analyzers/javascript.analyzer';
 import { ReactAnalyzer } from './analyzers/react.analyzer';
 import { ServiceAnalyzer } from './analyzers/service.analyzer';
+import { SecurityAnalyzer } from './analyzers/security.analyzer';
+import { PerformanceAnalyzer } from './analyzers/performance.analyzer';
 import { DependencyTracer } from './tracers/dependency.tracer';
 import { FlowTracer } from './tracers/flow.tracer';
 import { AnalyzeProjectDto, AnalyzeFileDto } from './dto/analysis.dto';
@@ -28,6 +30,8 @@ export class AnalysisService {
     private readonly javaScriptAnalyzer: JavaScriptAnalyzer,
     private readonly reactAnalyzer: ReactAnalyzer,
     private readonly serviceAnalyzer: ServiceAnalyzer,
+    private readonly securityAnalyzer: SecurityAnalyzer,
+    private readonly performanceAnalyzer: PerformanceAnalyzer,
     private readonly dependencyTracer: DependencyTracer,
     private readonly flowTracer: FlowTracer,
   ) {}
@@ -117,6 +121,16 @@ export class AnalysisService {
           fileAnalysis.serviceCalls = serviceDetection.serviceCalls;
           fileAnalysis.externalServices = serviceDetection.externalServices;
           fileAnalysis.databaseOperations = serviceDetection.databaseOperations;
+
+          // Add security analysis
+          const securityAnalysis = await this.analyzeFileSecurity(fileAnalysis, content);
+          fileAnalysis.securityVulnerabilities = securityAnalysis.vulnerabilities;
+          fileAnalysis.securityRiskScore = securityAnalysis.riskScore;
+
+          // Add performance analysis
+          const performanceAnalysis = await this.analyzeFilePerformance(fileAnalysis, content);
+          fileAnalysis.performanceIssues = performanceAnalysis.issues;
+          fileAnalysis.performanceScore = performanceAnalysis.performanceScore;
           
           fileAnalyses.push(fileAnalysis);
 
@@ -276,6 +290,68 @@ export class AnalysisService {
         serviceCalls: [],
         externalServices: [],
         databaseOperations: [],
+      };
+    }
+  }
+
+  private async analyzeFileSecurity(fileAnalysis: FileAnalysis, content: string): Promise<{
+    vulnerabilities: any[];
+    riskScore: number;
+  }> {
+    try {
+      if (fileAnalysis.language === SupportedLanguage.TYPESCRIPT || fileAnalysis.language === SupportedLanguage.TSX) {
+        const result = await this.securityAnalyzer.analyzeTypeScriptFile(fileAnalysis.filePath, fileAnalysis.ast);
+        return {
+          vulnerabilities: result.vulnerabilities,
+          riskScore: result.riskScore,
+        };
+      } else {
+        const result = await this.securityAnalyzer.analyzeJavaScriptFile(fileAnalysis.filePath, fileAnalysis.ast);
+        return {
+          vulnerabilities: result.vulnerabilities,
+          riskScore: result.riskScore,
+        };
+      }
+    } catch (error) {
+      this.logger.warn(`Failed to analyze security for ${fileAnalysis.filePath}:`, error.message);
+      return {
+        vulnerabilities: [],
+        riskScore: 0,
+      };
+    }
+  }
+
+  private async analyzeFilePerformance(fileAnalysis: FileAnalysis, content: string): Promise<{
+    issues: any[];
+    performanceScore: number;
+  }> {
+    try {
+      if (fileAnalysis.language === SupportedLanguage.TYPESCRIPT || fileAnalysis.language === SupportedLanguage.TSX) {
+        const result = await this.performanceAnalyzer.analyzeTypeScriptFile(
+          fileAnalysis.filePath, 
+          fileAnalysis.ast, 
+          fileAnalysis.complexity
+        );
+        return {
+          issues: result.issues,
+          performanceScore: result.performanceScore,
+        };
+      } else {
+        const result = await this.performanceAnalyzer.analyzeJavaScriptFile(
+          fileAnalysis.filePath, 
+          fileAnalysis.ast, 
+          fileAnalysis.complexity
+        );
+        return {
+          issues: result.issues,
+          performanceScore: result.performanceScore,
+        };
+      }
+    } catch (error) {
+      this.logger.warn(`Failed to analyze performance for ${fileAnalysis.filePath}:`, error.message);
+      return {
+        issues: [],
+        performanceScore: 100,
       };
     }
   }

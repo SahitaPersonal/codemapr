@@ -5,6 +5,8 @@ import { TypeScriptAnalyzer } from './analyzers/typescript.analyzer';
 import { JavaScriptAnalyzer } from './analyzers/javascript.analyzer';
 import { ReactAnalyzer } from './analyzers/react.analyzer';
 import { ServiceAnalyzer } from './analyzers/service.analyzer';
+import { SecurityAnalyzer } from './analyzers/security.analyzer';
+import { PerformanceAnalyzer } from './analyzers/performance.analyzer';
 import { DependencyTracer } from './tracers/dependency.tracer';
 import { FlowTracer } from './tracers/flow.tracer';
 
@@ -16,6 +18,8 @@ import { FlowTracer } from './tracers/flow.tracer';
     JavaScriptAnalyzer,
     ReactAnalyzer,
     ServiceAnalyzer,
+    SecurityAnalyzer,
+    PerformanceAnalyzer,
     DependencyTracer,
     FlowTracer,
   ],

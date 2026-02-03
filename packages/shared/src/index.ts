@@ -24,6 +24,8 @@ export type {
   EndToEndFlow,
   FlowStep,
   FlowMetadata,
+  SecurityVulnerability,
+  PerformanceIssue,
 } from './types/analysis';
 
 export {
@@ -34,6 +36,10 @@ export {
   HttpMethod,
   FlowType,
   StepType,
+  SecurityVulnerabilityType,
+  SecuritySeverity,
+  PerformanceIssueType,
+  PerformanceSeverity,
 } from './types/analysis';
 
 // Flowchart types

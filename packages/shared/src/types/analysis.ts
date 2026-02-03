@@ -23,6 +23,10 @@ export interface FileAnalysis {
   serviceCalls?: ServiceCall[];
   externalServices?: string[];
   databaseOperations?: ServiceCall[];
+  securityVulnerabilities?: SecurityVulnerability[];
+  securityRiskScore?: number;
+  performanceIssues?: PerformanceIssue[];
+  performanceScore?: number;
 }
 
 export interface DependencyGraph {
@@ -240,4 +244,79 @@ export enum StepType {
   EXTERNAL_API_CALL = 'external_api_call',
   MIDDLEWARE = 'middleware',
   HANDLER = 'handler',
+}
+
+export interface SecurityVulnerability {
+  id: string;
+  type: SecurityVulnerabilityType;
+  severity: SecuritySeverity;
+  title: string;
+  description: string;
+  location: SourceLocation;
+  recommendation: string;
+  cweId?: string;
+  owaspCategory?: string;
+  confidence: number;
+  metadata: Record<string, any>;
+}
+
+export interface PerformanceIssue {
+  id: string;
+  type: PerformanceIssueType;
+  severity: PerformanceSeverity;
+  title: string;
+  description: string;
+  location: SourceLocation;
+  recommendation: string;
+  estimatedImpact: string;
+  confidence: number;
+  metadata: Record<string, any>;
+}
+
+export enum SecurityVulnerabilityType {
+  SQL_INJECTION = 'sql_injection',
+  XSS = 'xss',
+  COMMAND_INJECTION = 'command_injection',
+  PATH_TRAVERSAL = 'path_traversal',
+  INSECURE_CRYPTO = 'insecure_crypto',
+  WEAK_AUTHENTICATION = 'weak_authentication',
+  AUTHORIZATION_BYPASS = 'authorization_bypass',
+  SENSITIVE_DATA_EXPOSURE = 'sensitive_data_exposure',
+  INSECURE_DESERIALIZATION = 'insecure_deserialization',
+  HARDCODED_SECRETS = 'hardcoded_secrets',
+  UNSAFE_EVAL = 'unsafe_eval',
+  PROTOTYPE_POLLUTION = 'prototype_pollution',
+  REGEX_DOS = 'regex_dos',
+  INSECURE_RANDOM = 'insecure_random',
+  MISSING_VALIDATION = 'missing_validation',
+}
+
+export enum SecuritySeverity {
+  CRITICAL = 'critical',
+  HIGH = 'high',
+  MEDIUM = 'medium',
+  LOW = 'low',
+  INFO = 'info',
+}
+
+export enum PerformanceIssueType {
+  ALGORITHMIC_COMPLEXITY = 'algorithmic_complexity',
+  MEMORY_LEAK = 'memory_leak',
+  INEFFICIENT_LOOP = 'inefficient_loop',
+  UNNECESSARY_COMPUTATION = 'unnecessary_computation',
+  BLOCKING_OPERATION = 'blocking_operation',
+  LARGE_OBJECT_CREATION = 'large_object_creation',
+  FREQUENT_DOM_ACCESS = 'frequent_dom_access',
+  INEFFICIENT_REGEX = 'inefficient_regex',
+  SYNCHRONOUS_IO = 'synchronous_io',
+  MEMORY_INTENSIVE = 'memory_intensive',
+  CPU_INTENSIVE = 'cpu_intensive',
+  CACHE_MISS = 'cache_miss',
+  DATABASE_N_PLUS_ONE = 'database_n_plus_one',
+}
+
+export enum PerformanceSeverity {
+  HIGH = 'high',
+  MEDIUM = 'medium',
+  LOW = 'low',
 }

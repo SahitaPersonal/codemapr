@@ -178,6 +178,144 @@ export class AnalysisController {
     };
   }
 
+  @Get('security/:id')
+  @ApiOperation({ summary: 'Get security analysis results' })
+  @ApiParam({ name: 'id', description: 'Analysis ID' })
+  @ApiResponse({
+    status: 200,
+    description: 'Security analysis results retrieved successfully',
+    schema: {
+      type: 'object',
+      properties: {
+        vulnerabilities: { type: 'array', items: { type: 'object' } },
+        summary: {
+          type: 'object',
+          properties: {
+            totalVulnerabilities: { type: 'number' },
+            criticalCount: { type: 'number' },
+            highCount: { type: 'number' },
+            mediumCount: { type: 'number' },
+            lowCount: { type: 'number' },
+            averageRiskScore: { type: 'number' },
+          },
+        },
+      },
+    },
+  })
+  async getSecurityAnalysis(@Param('id') id: string): Promise<{
+    vulnerabilities: any[];
+    summary: {
+      totalVulnerabilities: number;
+      criticalCount: number;
+      highCount: number;
+      mediumCount: number;
+      lowCount: number;
+      averageRiskScore: number;
+    };
+  }> {
+    const analysis = await this.analysisService.getAnalysisResult(id);
+    if (!analysis) {
+      return {
+        vulnerabilities: [],
+        summary: {
+          totalVulnerabilities: 0,
+          criticalCount: 0,
+          highCount: 0,
+          mediumCount: 0,
+          lowCount: 0,
+          averageRiskScore: 0,
+        },
+      };
+    }
+
+    // Aggregate security vulnerabilities from all files
+    const allVulnerabilities = analysis.files
+      .flatMap(file => file.securityVulnerabilities || []);
+
+    const summary = {
+      totalVulnerabilities: allVulnerabilities.length,
+      criticalCount: allVulnerabilities.filter(v => v.severity === 'critical').length,
+      highCount: allVulnerabilities.filter(v => v.severity === 'high').length,
+      mediumCount: allVulnerabilities.filter(v => v.severity === 'medium').length,
+      lowCount: allVulnerabilities.filter(v => v.severity === 'low').length,
+      averageRiskScore: analysis.files.length > 0 
+        ? analysis.files.reduce((sum, file) => sum + (file.securityRiskScore || 0), 0) / analysis.files.length
+        : 0,
+    };
+
+    return {
+      vulnerabilities: allVulnerabilities,
+      summary,
+    };
+  }
+
+  @Get('performance/:id')
+  @ApiOperation({ summary: 'Get performance analysis results' })
+  @ApiParam({ name: 'id', description: 'Analysis ID' })
+  @ApiResponse({
+    status: 200,
+    description: 'Performance analysis results retrieved successfully',
+    schema: {
+      type: 'object',
+      properties: {
+        issues: { type: 'array', items: { type: 'object' } },
+        summary: {
+          type: 'object',
+          properties: {
+            totalIssues: { type: 'number' },
+            highImpactCount: { type: 'number' },
+            mediumImpactCount: { type: 'number' },
+            lowImpactCount: { type: 'number' },
+            averagePerformanceScore: { type: 'number' },
+          },
+        },
+      },
+    },
+  })
+  async getPerformanceAnalysis(@Param('id') id: string): Promise<{
+    issues: any[];
+    summary: {
+      totalIssues: number;
+      highImpactCount: number;
+      mediumImpactCount: number;
+      lowImpactCount: number;
+      averagePerformanceScore: number;
+    };
+  }> {
+    const analysis = await this.analysisService.getAnalysisResult(id);
+    if (!analysis) {
+      return {
+        issues: [],
+        summary: {
+          totalIssues: 0,
+          highImpactCount: 0,
+          mediumImpactCount: 0,
+          lowImpactCount: 0,
+          averagePerformanceScore: 100,
+        },
+      };
+    }
+
+    // Aggregate performance issues from all files
+    const allIssues = analysis.files
+      .flatMap(file => file.performanceIssues || []);
+
+    const summary = {
+      totalIssues: allIssues.length,
+      highImpactCount: allIssues.filter(i => i.severity === 'high').length,
+      mediumImpactCount: allIssues.filter(i => i.severity === 'medium').length,
+      lowImpactCount: allIssues.filter(i => i.severity === 'low').length,
+      averagePerformanceScore: analysis.files.length > 0 
+        ? analysis.files.reduce((sum, file) => sum + (file.performanceScore || 100), 0) / analysis.files.length
+        : 100,
+    };
+
+    return {
+      issues: allIssues,
+      summary,
+    };
+  }
+
   @Get('health')
   @ApiOperation({ summary: 'Check analysis service health' })
   @ApiResponse({
