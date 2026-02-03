@@ -21,6 +21,9 @@ export type {
   ProjectMetadata,
   ComplexityMetrics,
   ServiceCall,
+  EndToEndFlow,
+  FlowStep,
+  FlowMetadata,
 } from './types/analysis';
 
 export {
@@ -29,6 +32,8 @@ export {
   AnalysisStatus,
   ServiceCallType,
   HttpMethod,
+  FlowType,
+  StepType,
 } from './types/analysis';
 
 // Flowchart types

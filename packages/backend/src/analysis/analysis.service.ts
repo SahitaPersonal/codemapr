@@ -7,11 +7,14 @@ import {
   AnalysisStatus,
   ProjectMetadata,
   DependencyGraph,
+  EndToEndFlow,
 } from '@codemapr/shared';
 import { TypeScriptAnalyzer } from './analyzers/typescript.analyzer';
 import { JavaScriptAnalyzer } from './analyzers/javascript.analyzer';
 import { ReactAnalyzer } from './analyzers/react.analyzer';
+import { ServiceAnalyzer } from './analyzers/service.analyzer';
 import { DependencyTracer } from './tracers/dependency.tracer';
+import { FlowTracer } from './tracers/flow.tracer';
 import { AnalyzeProjectDto, AnalyzeFileDto } from './dto/analysis.dto';
 
 @Injectable()
@@ -24,7 +27,9 @@ export class AnalysisService {
     private readonly typeScriptAnalyzer: TypeScriptAnalyzer,
     private readonly javaScriptAnalyzer: JavaScriptAnalyzer,
     private readonly reactAnalyzer: ReactAnalyzer,
+    private readonly serviceAnalyzer: ServiceAnalyzer,
     private readonly dependencyTracer: DependencyTracer,
+    private readonly flowTracer: FlowTracer,
   ) {}
 
   async analyzeProject(
@@ -106,6 +111,13 @@ export class AnalysisService {
           const analyzer = this.getAnalyzerForLanguage(language);
 
           const fileAnalysis = await analyzer.analyzeFile(file.originalname, content);
+          
+          // Add service call detection
+          const serviceDetection = await this.analyzeServiceCalls(fileAnalysis, content);
+          fileAnalysis.serviceCalls = serviceDetection.serviceCalls;
+          fileAnalysis.externalServices = serviceDetection.externalServices;
+          fileAnalysis.databaseOperations = serviceDetection.databaseOperations;
+          
           fileAnalyses.push(fileAnalysis);
 
           // Detect entry points (files with main exports or specific patterns)
@@ -119,6 +131,9 @@ export class AnalysisService {
 
       // Build dependency graph
       const dependencyGraph = await this.dependencyTracer.buildDependencyGraph(fileAnalyses);
+
+      // Trace end-to-end flows
+      const endToEndFlows = await this.flowTracer.traceEndToEndFlows(fileAnalyses, dependencyGraph);
 
       // Create project metadata
       const metadata: ProjectMetadata = {
@@ -138,6 +153,7 @@ export class AnalysisService {
         dependencies: dependencyGraph,
         entryPoints,
         metadata,
+        endToEndFlows,
         createdAt: new Date(startTime),
         updatedAt: new Date(),
       };
@@ -241,5 +257,26 @@ export class AnalysisService {
     // This would count actual lines in the file
     // For now, return a mock value
     return 100;
+  }
+
+  private async analyzeServiceCalls(fileAnalysis: FileAnalysis, content: string): Promise<{
+    serviceCalls: any[];
+    externalServices: string[];
+    databaseOperations: any[];
+  }> {
+    try {
+      if (fileAnalysis.language === SupportedLanguage.TYPESCRIPT || fileAnalysis.language === SupportedLanguage.TSX) {
+        return await this.serviceAnalyzer.analyzeTypeScriptFile(fileAnalysis.filePath, fileAnalysis.ast);
+      } else {
+        return await this.serviceAnalyzer.analyzeJavaScriptFile(fileAnalysis.filePath, fileAnalysis.ast);
+      }
+    } catch (error) {
+      this.logger.warn(`Failed to analyze service calls in ${fileAnalysis.filePath}:`, error.message);
+      return {
+        serviceCalls: [],
+        externalServices: [],
+        databaseOperations: [],
+      };
+    }
   }
 }

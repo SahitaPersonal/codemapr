@@ -115,6 +115,16 @@ export class FlowchartController {
           flowchart = await this.flowchartService.generateDependencyGraph(analysisData);
           break;
 
+        case FlowchartType.SERVICE_FLOW:
+          if (!this.isProjectAnalysis(analysisData)) {
+            throw new HttpException(
+              'Project analysis data required for service flow flowchart',
+              HttpStatus.BAD_REQUEST,
+            );
+          }
+          flowchart = await this.flowchartService.generateServiceFlowchart(analysisData);
+          break;
+
         default:
           throw new HttpException(
             `Unsupported flowchart type: ${generateDto.type}`,

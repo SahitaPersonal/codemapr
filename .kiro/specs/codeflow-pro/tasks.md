@@ -164,7 +164,7 @@ The implementation uses a modern TypeScript stack:
     - **Property 12: Service call visual distinction**
     - **Validates: Requirements 6.4**
 
-  - [ ] 6.6 Implement end-to-end flow tracing
+  - [-] 6.6 Implement end-to-end flow tracing
     - Trace request flows from frontend to backend to database
     - Connect HTTP endpoints to their handler functions
     - Map database operations to their calling contexts

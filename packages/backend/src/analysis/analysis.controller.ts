@@ -147,6 +147,37 @@ export class AnalysisController {
     return this.analysisService.getProjectAnalysisResults(projectId, limit, offset);
   }
 
+  @Get('flows/:id')
+  @ApiOperation({ summary: 'Get end-to-end flows for an analysis' })
+  @ApiParam({ name: 'id', description: 'Analysis ID' })
+  @ApiResponse({
+    status: 200,
+    description: 'End-to-end flows retrieved successfully',
+    schema: {
+      type: 'object',
+      properties: {
+        flows: { type: 'array', items: { type: 'object' } },
+        total: { type: 'number' },
+      },
+    },
+  })
+  @ApiResponse({
+    status: 404,
+    description: 'Analysis not found',
+  })
+  async getEndToEndFlows(@Param('id') id: string): Promise<{ flows: any[]; total: number }> {
+    const analysis = await this.analysisService.getAnalysisResult(id);
+    if (!analysis) {
+      return { flows: [], total: 0 };
+    }
+
+    const flows = analysis.endToEndFlows || [];
+    return {
+      flows,
+      total: flows.length,
+    };
+  }
+
   @Get('health')
   @ApiOperation({ summary: 'Check analysis service health' })
   @ApiResponse({

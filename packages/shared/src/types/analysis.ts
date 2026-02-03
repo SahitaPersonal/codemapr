@@ -5,6 +5,7 @@ export interface ProjectAnalysis {
   dependencies: DependencyGraph;
   entryPoints: string[];
   metadata: ProjectMetadata;
+  endToEndFlows?: EndToEndFlow[];
   createdAt: Date;
   updatedAt: Date;
 }
@@ -185,3 +186,58 @@ export enum HttpMethod {
 
 // Alias for consistency with existing code
 export type AnalysisSourceLocation = SourceLocation;
+
+export interface EndToEndFlow {
+  id: string;
+  name: string;
+  type: FlowType;
+  steps: FlowStep[];
+  entryPoint: FlowStep;
+  exitPoints: FlowStep[];
+  metadata: FlowMetadata;
+}
+
+export interface FlowStep {
+  id: string;
+  type: StepType;
+  name: string;
+  filePath: string;
+  location: {
+    startLine: number;
+    endLine: number;
+    startColumn: number;
+    endColumn: number;
+  };
+  serviceCall?: ServiceCall;
+  functionCall?: FunctionDeclaration;
+  nextSteps: string[];
+  previousSteps: string[];
+  metadata: Record<string, any>;
+}
+
+export interface FlowMetadata {
+  totalSteps: number;
+  maxDepth: number;
+  hasExternalCalls: boolean;
+  hasDatabaseOperations: boolean;
+  estimatedExecutionTime?: number;
+  complexity: number;
+}
+
+export enum FlowType {
+  HTTP_TO_DATABASE = 'http_to_database',
+  FRONTEND_TO_BACKEND = 'frontend_to_backend',
+  SERVICE_TO_SERVICE = 'service_to_service',
+  FUNCTION_CHAIN = 'function_chain',
+  DATA_FLOW = 'data_flow',
+}
+
+export enum StepType {
+  HTTP_ENDPOINT = 'http_endpoint',
+  FUNCTION_CALL = 'function_call',
+  SERVICE_CALL = 'service_call',
+  DATABASE_OPERATION = 'database_operation',
+  EXTERNAL_API_CALL = 'external_api_call',
+  MIDDLEWARE = 'middleware',
+  HANDLER = 'handler',
+}

@@ -6,6 +6,7 @@ import { JavaScriptAnalyzer } from './analyzers/javascript.analyzer';
 import { ReactAnalyzer } from './analyzers/react.analyzer';
 import { ServiceAnalyzer } from './analyzers/service.analyzer';
 import { DependencyTracer } from './tracers/dependency.tracer';
+import { FlowTracer } from './tracers/flow.tracer';
 
 @Module({
   controllers: [AnalysisController],
@@ -16,6 +17,7 @@ import { DependencyTracer } from './tracers/dependency.tracer';
     ReactAnalyzer,
     ServiceAnalyzer,
     DependencyTracer,
+    FlowTracer,
   ],
   exports: [AnalysisService],
 })
