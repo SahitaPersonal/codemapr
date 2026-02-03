@@ -91,7 +91,7 @@ function FlowchartViewerInner({
       draggable: node.draggable,
       selectable: node.selectable,
     }));
-  }, [flowchartData.nodes, filters.showLabels]);
+  }, [flowchartData.nodes, filters.showLabels, selectedTheme]);
 
   const convertedEdges = useMemo(() => {
     return flowchartData.edges.map((edge) => ({
@@ -135,6 +135,24 @@ function FlowchartViewerInner({
     setNodes(filteredNodes);
     setEdges(filteredEdges);
   }, [filteredNodes, filteredEdges, setNodes, setEdges]);
+
+  // Handle node position changes during drag
+  const onNodesChangeHandler = useCallback((changes: any[]) => {
+    try {
+      onNodesChange(changes);
+    } catch (error) {
+      console.error('Error handling node changes:', error);
+    }
+  }, [onNodesChange]);
+
+  // Handle edge changes
+  const onEdgesChangeHandler = useCallback((changes: any[]) => {
+    try {
+      onEdgesChange(changes);
+    } catch (error) {
+      console.error('Error handling edge changes:', error);
+    }
+  }, [onEdgesChange]);
 
   // Handle node connections (for interactive editing)
   const onConnect = useCallback(
@@ -193,8 +211,8 @@ function FlowchartViewerInner({
       <ReactFlow
         nodes={nodes}
         edges={edges}
-        onNodesChange={onNodesChange}
-        onEdgesChange={onEdgesChange}
+        onNodesChange={onNodesChangeHandler}
+        onEdgesChange={onEdgesChangeHandler}
         onConnect={onConnect}
         onNodeClick={handleNodeClick}
         onEdgeClick={handleEdgeClick}
@@ -203,6 +221,15 @@ function FlowchartViewerInner({
         fitView
         attributionPosition="bottom-left"
         className="bg-gray-50"
+        nodesDraggable={true}
+        nodesConnectable={true}
+        elementsSelectable={true}
+        selectNodesOnDrag={false}
+        panOnDrag={true}
+        zoomOnScroll={true}
+        zoomOnPinch={true}
+        panOnScroll={false}
+        preventScrolling={true}
       >
         <Background 
           variant={BackgroundVariant.Dots} 

@@ -1,6 +1,6 @@
 'use client';
 
-import React, { memo, useState } from 'react';
+import React, { memo, useState, useCallback } from 'react';
 import { Handle, Position, NodeProps } from 'reactflow';
 import { 
   Code, 
@@ -31,6 +31,14 @@ export const CustomNode = memo(({ data, type, selected }: NodeProps<CustomNodeDa
   const [isHovered, setIsHovered] = useState(false);
   const nodeType = type as NodeType;
   const theme = data.theme || 'light';
+
+  const handleMouseEnter = useCallback(() => {
+    setIsHovered(true);
+  }, []);
+
+  const handleMouseLeave = useCallback(() => {
+    setIsHovered(false);
+  }, []);
 
   const getNodeIcon = () => {
     const iconProps = { size: 18, className: "transition-all duration-200" };
@@ -173,8 +181,8 @@ export const CustomNode = memo(({ data, type, selected }: NodeProps<CustomNodeDa
         ${isHovered ? 'scale-105' : 'scale-100'}
         ${selected ? 'ring-2 ring-blue-400 ring-opacity-50' : ''}
       `}
-      onMouseEnter={() => setIsHovered(true)}
-      onMouseLeave={() => setIsHovered(false)}
+      onMouseEnter={handleMouseEnter}
+      onMouseLeave={handleMouseLeave}
     >
       {/* Accent bar with animation */}
       <div className={`
