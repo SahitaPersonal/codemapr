@@ -137,7 +137,7 @@ The implementation uses a modern TypeScript stack:
     - Design responsive layouts for different screen sizes
     - _Requirements: 3.6_
 
-- [-] 6. Implement service detection and visualization
+- [x] 6. Implement service detection and visualization
   - [x] 6.1 Add HTTP request and API call detection
     - Parse fetch, axios, and other HTTP client calls
     - Extract endpoint URLs and request methods
@@ -164,7 +164,7 @@ The implementation uses a modern TypeScript stack:
     - **Property 12: Service call visual distinction**
     - **Validates: Requirements 6.4**
 
-  - [-] 6.6 Implement end-to-end flow tracing
+  - [x] 6.6 Implement end-to-end flow tracing
     - Trace request flows from frontend to backend to database
     - Connect HTTP endpoints to their handler functions
     - Map database operations to their calling contexts
@@ -175,7 +175,7 @@ The implementation uses a modern TypeScript stack:
     - **Validates: Requirements 6.5**
 
 - [ ] 7. Build AI explanation service
-  - [ ] 7.1 Integrate OpenAI GPT-4 API
+  - [-] 7.1 Integrate OpenAI GPT-4 API
     - Set up OpenAI TypeScript client with rate limiting and exponential backoff
     - Implement context preparation for code analysis requests with token management
     - Add response parsing, validation, and formatting for explanations

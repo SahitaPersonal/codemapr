@@ -7,6 +7,7 @@ import { AppService } from './app.service';
 import { HealthModule } from './health/health.module';
 import { AnalysisModule } from './analysis/analysis.module';
 import { FlowchartModule } from './flowchart/flowchart.module';
+import { AIModule } from './ai/ai.module';
 
 @Module({
   imports: [
@@ -35,6 +36,7 @@ import { FlowchartModule } from './flowchart/flowchart.module';
     HealthModule,
     AnalysisModule,
     FlowchartModule,
+    AIModule,
   ],
   controllers: [AppController],
   providers: [AppService],
