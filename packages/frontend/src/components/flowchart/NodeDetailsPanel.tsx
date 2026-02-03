@@ -78,12 +78,13 @@ export function NodeDetailsPanel({
     <div className="absolute top-0 right-0 h-full w-80 bg-white shadow-lg border-l border-gray-200 z-20 overflow-y-auto">
       {/* Header */}
       <div className="sticky top-0 bg-white border-b border-gray-200 p-4 flex items-center justify-between">
-        <h2 className="text-lg font-semibold text-gray-900">
+        <h2 className="text-lg font-semibold" style={{ color: '#111827' }}>
           {selectedNode ? 'Node Details' : 'Edge Details'}
         </h2>
         <button
           onClick={onClose}
           className="p-1 hover:bg-gray-100 rounded"
+          style={{ color: '#374151' }}
         >
           <X size={20} />
         </button>
@@ -97,14 +98,14 @@ export function NodeDetailsPanel({
             <div className="flex items-start gap-3">
               {getNodeIcon(selectedNode.type as NodeType)}
               <div className="flex-1">
-                <h3 className="text-xl font-semibold text-gray-900">
+                <h3 className="text-xl font-semibold" style={{ color: '#111827' }}>
                   {selectedNode.data.label}
                 </h3>
-                <p className="text-sm text-gray-600 mt-1">
+                <p className="text-sm mt-1" style={{ color: '#6b7280' }}>
                   {getNodeTypeLabel(selectedNode.type as NodeType)}
                 </p>
                 {selectedNode.data.description && (
-                  <p className="text-sm text-gray-700 mt-2">
+                  <p className="text-sm mt-2" style={{ color: '#374151' }}>
                     {selectedNode.data.description}
                   </p>
                 )}
@@ -114,10 +115,10 @@ export function NodeDetailsPanel({
             {/* Source Location */}
             {selectedNode.data.sourceLocation && (
               <div className="bg-gray-50 rounded-lg p-3">
-                <h4 className="text-sm font-medium text-gray-900 mb-2">
+                <h4 className="text-sm font-medium mb-2" style={{ color: '#111827' }}>
                   Source Location
                 </h4>
-                <div className="text-sm text-gray-700 space-y-1">
+                <div className="text-sm space-y-1" style={{ color: '#374151' }}>
                   <div>
                     <span className="font-medium">File:</span>{' '}
                     {selectedNode.data.sourceLocation.filePath}
@@ -129,7 +130,8 @@ export function NodeDetailsPanel({
                 </div>
                 <button
                   onClick={() => onNavigateToSource(selectedNode.data.sourceLocation)}
-                  className="mt-2 inline-flex items-center gap-1 text-sm text-blue-600 hover:text-blue-800"
+                  className="mt-2 inline-flex items-center gap-1 text-sm hover:underline"
+                  style={{ color: '#2563eb' }}
                 >
                   <ExternalLink size={14} />
                   Open in Editor
@@ -165,16 +167,16 @@ export function NodeDetailsPanel({
             {/* Metadata */}
             {selectedNode.data.metadata && Object.keys(selectedNode.data.metadata).length > 0 && (
               <div>
-                <h4 className="text-sm font-medium text-gray-900 mb-3">
+                <h4 className="text-sm font-medium mb-3" style={{ color: '#111827' }}>
                   Additional Information
                 </h4>
                 <div className="space-y-2">
                   {Object.entries(selectedNode.data.metadata).map(([key, value]) => (
                     <div key={key} className="flex justify-between text-sm">
-                      <span className="text-gray-600 capitalize">
+                      <span className="capitalize" style={{ color: '#6b7280' }}>
                         {key.replace(/([A-Z])/g, ' $1').trim()}:
                       </span>
-                      <span className="text-gray-900 font-medium">
+                      <span className="font-medium" style={{ color: '#111827' }}>
                         {typeof value === 'object' ? JSON.stringify(value) : String(value)}
                       </span>
                     </div>
@@ -207,20 +209,20 @@ export function NodeDetailsPanel({
           <div className="space-y-6">
             {/* Edge Header */}
             <div>
-              <h3 className="text-xl font-semibold text-gray-900">
+              <h3 className="text-xl font-semibold" style={{ color: '#111827' }}>
                 {selectedEdge.data?.label || 'Connection'}
               </h3>
-              <p className="text-sm text-gray-600 mt-1">
+              <p className="text-sm mt-1" style={{ color: '#6b7280' }}>
                 {getEdgeTypeLabel(selectedEdge.type as EdgeType)}
               </p>
             </div>
 
             {/* Connection Details */}
             <div className="bg-gray-50 rounded-lg p-3">
-              <h4 className="text-sm font-medium text-gray-900 mb-2">
+              <h4 className="text-sm font-medium mb-2" style={{ color: '#111827' }}>
                 Connection
               </h4>
-              <div className="text-sm text-gray-700 space-y-1">
+              <div className="text-sm space-y-1" style={{ color: '#374151' }}>
                 <div>
                   <span className="font-medium">From:</span> {selectedEdge.source}
                 </div>
@@ -232,7 +234,7 @@ export function NodeDetailsPanel({
                   {selectedEdge.data?.callType || 'Unknown'}
                 </div>
                 {selectedEdge.data?.isAsync && (
-                  <div className="text-blue-600 font-medium">Asynchronous</div>
+                  <div className="font-medium" style={{ color: '#2563eb' }}>Asynchronous</div>
                 )}
               </div>
             </div>
@@ -240,11 +242,11 @@ export function NodeDetailsPanel({
             {/* Parameters */}
             {selectedEdge.data?.parameters && selectedEdge.data.parameters.length > 0 && (
               <div>
-                <h4 className="text-sm font-medium text-gray-900 mb-2">
+                <h4 className="text-sm font-medium mb-2" style={{ color: '#111827' }}>
                   Parameters
                 </h4>
                 <div className="bg-gray-50 rounded-lg p-3">
-                  <ul className="text-sm text-gray-700 space-y-1">
+                  <ul className="text-sm space-y-1" style={{ color: '#374151' }}>
                     {selectedEdge.data.parameters.map((param: string, index: number) => (
                       <li key={index} className="font-mono">
                         {param}
@@ -258,16 +260,16 @@ export function NodeDetailsPanel({
             {/* Edge Metadata */}
             {selectedEdge.data?.metadata && Object.keys(selectedEdge.data.metadata).length > 0 && (
               <div>
-                <h4 className="text-sm font-medium text-gray-900 mb-3">
+                <h4 className="text-sm font-medium mb-3" style={{ color: '#111827' }}>
                   Additional Information
                 </h4>
                 <div className="space-y-2">
                   {Object.entries(selectedEdge.data.metadata).map(([key, value]) => (
                     <div key={key} className="flex justify-between text-sm">
-                      <span className="text-gray-600 capitalize">
+                      <span className="capitalize" style={{ color: '#6b7280' }}>
                         {key.replace(/([A-Z])/g, ' $1').trim()}:
                       </span>
-                      <span className="text-gray-900 font-medium">
+                      <span className="font-medium" style={{ color: '#111827' }}>
                         {typeof value === 'object' ? JSON.stringify(value) : String(value)}
                       </span>
                     </div>

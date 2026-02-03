@@ -1,0 +1,52 @@
+/* React Flow Cursor Visibility Fix */
+.react-flow__pane {
+  cursor: default !important;
+}
+
+.react-flow__pane.dragging {
+  cursor: grabbing !important;
+}
+
+.react-flow__pane:active {
+  cursor: grabbing !important;
+}
+
+.react-flow__node {
+  cursor: pointer !important;
+}
+
+.react-flow__node:hover {
+  cursor: pointer !important;
+}
+
+.react-flow__edge {
+  cursor: pointer !important;
+}
+
+.react-flow__handle {
+  cursor: crosshair !important;
+}
+
+.react-flow__controls button {
+  cursor: pointer !important;
+  color: #374151 !important;
+}
+
+.react-flow__minimap {
+  cursor: pointer !important;
+}
+
+/* Ensure cursor is visible on all interactive elements */
+.react-flow__attribution {
+  cursor: default !important;
+}
+
+/* Fix for selection box */
+.react-flow__selection {
+  cursor: default !important;
+}
+
+/* Fix for connection line */
+.react-flow__connectionline {
+  cursor: crosshair !important;
+}

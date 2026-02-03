@@ -207,7 +207,7 @@ function FlowchartViewerInner({
   }, []);
 
   return (
-    <div className={`relative w-full h-full ${className}`}>
+    <div className={`relative w-full h-full ${className} cursor-default`}>
       <ReactFlow
         nodes={nodes}
         edges={edges}
@@ -220,7 +220,7 @@ function FlowchartViewerInner({
         edgeTypes={edgeTypes}
         fitView
         attributionPosition="bottom-left"
-        className="bg-gray-50"
+        className="bg-gray-50 cursor-default [&_.react-flow__pane]:cursor-default [&_.react-flow__node]:cursor-pointer [&_.react-flow__edge]:cursor-pointer [&_.react-flow__handle]:cursor-crosshair"
         nodesDraggable={true}
         nodesConnectable={true}
         elementsSelectable={true}

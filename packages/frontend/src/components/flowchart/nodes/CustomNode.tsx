@@ -160,6 +160,7 @@ export const CustomNode = memo(({ data, type, selected }: NodeProps<CustomNodeDa
         backgroundColor: colors.background,
         borderColor: colors.borderColor,
         boxShadow: isHovered || selected ? currentTheme.shadows.lg : currentTheme.shadows.md,
+        cursor: 'pointer',
       }}
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
