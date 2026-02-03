@@ -161,7 +161,7 @@ function FlowchartViewerInner({
   );
 
   // Handle node selection
-  const handleNodeClick = useCallback((event: React.MouseEvent, node: Node) => {
+  const handleNodeClick = useCallback((_event: React.MouseEvent, node: Node) => {
     setSelectedNode(node);
     setSelectedEdge(null);
     setIsDetailsOpen(true);
@@ -169,7 +169,7 @@ function FlowchartViewerInner({
   }, [onNodeClick]);
 
   // Handle edge selection
-  const handleEdgeClick = useCallback((event: React.MouseEvent, edge: Edge) => {
+  const handleEdgeClick = useCallback((_event: React.MouseEvent, edge: Edge) => {
     setSelectedEdge(edge);
     setSelectedNode(null);
     setIsDetailsOpen(true);

@@ -6,7 +6,8 @@ import {
   LayoutAlgorithm, 
   LayoutDirection, 
   LayoutAlignment,
-  CallType 
+  CallType,
+  ServiceCallType
 } from '@codemapr/shared';
 
 export const mockFlowchartData: FlowchartData = {
@@ -206,10 +207,13 @@ export const mockFlowchartData: FlowchartData = {
           endColumn: 45,
         },
         isServiceCall: true,
+        serviceCallType: ServiceCallType.HTTP_REQUEST,
+        isExternal: true,
         metadata: {
           method: 'GET',
           endpoint: '/api/users',
           responseType: 'User[]',
+          client: 'fetch',
         },
       },
       style: {
@@ -252,6 +256,45 @@ export const mockFlowchartData: FlowchartData = {
         borderColor: '#6b7280',
         borderWidth: 2,
         color: '#1f2937',
+        fontSize: 14,
+        fontWeight: '500',
+        borderRadius: 8,
+        width: 200,
+        height: 80,
+      },
+      draggable: true,
+      selectable: true,
+    },
+    {
+      id: 'db/users/findMany',
+      type: NodeType.DATABASE,
+      position: { x: 300, y: 500 },
+      data: {
+        label: 'User.findMany()',
+        description: 'Database query to fetch multiple users',
+        sourceLocation: {
+          filePath: 'src/services/user.service.ts',
+          startLine: 15,
+          endLine: 15,
+          startColumn: 10,
+          endColumn: 35,
+        },
+        isServiceCall: true,
+        serviceCallType: ServiceCallType.DATABASE_QUERY,
+        isExternal: false,
+        complexity: 2,
+        metadata: {
+          orm: 'prisma',
+          operationType: 'read',
+          table: 'User',
+          operation: 'findMany',
+        },
+      },
+      style: {
+        backgroundColor: '#f3e8ff',
+        borderColor: '#a855f7',
+        borderWidth: 2,
+        color: '#7c3aed',
         fontSize: 14,
         fontWeight: '500',
         borderRadius: 8,
@@ -376,6 +419,27 @@ export const mockFlowchartData: FlowchartData = {
       },
       animated: false,
     },
+    {
+      id: 'src/utils/api.ts-db/users/findMany',
+      source: 'src/utils/api.ts',
+      target: 'db/users/findMany',
+      type: EdgeType.DATABASE_QUERY,
+      data: {
+        label: 'queries',
+        callType: CallType.ASYNCHRONOUS,
+        isAsync: true,
+        metadata: {
+          relationship: 'queries',
+          operation: 'findMany',
+        },
+      },
+      style: {
+        stroke: '#7c3aed',
+        strokeWidth: 2,
+        strokeDasharray: '8,4',
+      },
+      animated: true,
+    },
   ],
   layout: {
     algorithm: LayoutAlgorithm.HIERARCHICAL,
@@ -388,8 +452,8 @@ export const mockFlowchartData: FlowchartData = {
     alignment: LayoutAlignment.CENTER,
   },
   metadata: {
-    totalNodes: 7,
-    totalEdges: 6,
+    totalNodes: 8,
+    totalEdges: 7,
     maxDepth: 3,
     analysisVersion: '1.0.0',
     generatedAt: new Date(),

@@ -12,9 +12,14 @@ import {
   Package,
   AlertCircle,
   Clock,
-  TrendingUp
+  TrendingUp,
+  Server,
+  Cloud,
+  Wifi,
+  HardDrive
 } from 'lucide-react';
-import { NodeType } from '@codemapr/shared';
+import { NodeType, ServiceCallType } from '@codemapr/shared';
+import { themes } from '../../../lib/flowchartThemes';
 
 interface CustomNodeData {
   label: string;
@@ -22,6 +27,8 @@ interface CustomNodeData {
   complexity?: number;
   executionTime?: number;
   isServiceCall?: boolean;
+  serviceCallType?: ServiceCallType;
+  isExternal?: boolean;
   showLabel?: boolean;
   metadata?: Record<string, any>;
   theme?: 'light' | 'dark' | 'ocean';
@@ -43,6 +50,23 @@ export const CustomNode = memo(({ data, type, selected }: NodeProps<CustomNodeDa
   const getNodeIcon = () => {
     const iconProps = { size: 18, className: "transition-all duration-200" };
     
+    // Service call specific icons
+    if (data.isServiceCall && data.serviceCallType) {
+      switch (data.serviceCallType) {
+        case ServiceCallType.HTTP_REQUEST:
+          return data.isExternal ? 
+            <Cloud {...iconProps} className={`${iconProps.className} text-blue-600`} /> :
+            <Server {...iconProps} className={`${iconProps.className} text-green-600`} />;
+        case ServiceCallType.DATABASE_QUERY:
+          return <HardDrive {...iconProps} className={`${iconProps.className} text-purple-600`} />;
+        case ServiceCallType.EXTERNAL_API:
+          return <Wifi {...iconProps} className={`${iconProps.className} text-indigo-600`} />;
+        case ServiceCallType.INTERNAL_SERVICE:
+          return <Server {...iconProps} className={`${iconProps.className} text-teal-600`} />;
+      }
+    }
+    
+    // Default node type icons
     switch (nodeType) {
       case NodeType.FUNCTION:
         return <Code {...iconProps} className={`${iconProps.className} text-blue-600`} />;
@@ -66,76 +90,28 @@ export const CustomNode = memo(({ data, type, selected }: NodeProps<CustomNodeDa
   };
 
   const getNodeColors = () => {
-    const baseColors = {
-      light: {
-        [NodeType.FUNCTION]: {
-          bg: 'bg-gradient-to-br from-blue-50 to-blue-100',
-          border: 'border-blue-300',
-          text: 'text-blue-900',
-          accent: 'bg-blue-500',
-          shadow: 'shadow-blue-200/50',
-          glow: 'shadow-blue-400/30',
-        },
-        [NodeType.CLASS]: {
-          bg: 'bg-gradient-to-br from-green-50 to-green-100',
-          border: 'border-green-300',
-          text: 'text-green-900',
-          accent: 'bg-green-500',
-          shadow: 'shadow-green-200/50',
-          glow: 'shadow-green-400/30',
-        },
-        [NodeType.COMPONENT]: {
-          bg: 'bg-gradient-to-br from-yellow-50 to-yellow-100',
-          border: 'border-yellow-300',
-          text: 'text-yellow-900',
-          accent: 'bg-yellow-500',
-          shadow: 'shadow-yellow-200/50',
-          glow: 'shadow-yellow-400/30',
-        },
-        [NodeType.SERVICE_CALL]: {
-          bg: 'bg-gradient-to-br from-pink-50 to-pink-100',
-          border: 'border-pink-300',
-          text: 'text-pink-900',
-          accent: 'bg-pink-500',
-          shadow: 'shadow-pink-200/50',
-          glow: 'shadow-pink-400/30',
-        },
-        [NodeType.DATABASE]: {
-          bg: 'bg-gradient-to-br from-purple-50 to-purple-100',
-          border: 'border-purple-300',
-          text: 'text-purple-900',
-          accent: 'bg-purple-500',
-          shadow: 'shadow-purple-200/50',
-          glow: 'shadow-purple-400/30',
-        },
-        [NodeType.API_ENDPOINT]: {
-          bg: 'bg-gradient-to-br from-indigo-50 to-indigo-100',
-          border: 'border-indigo-300',
-          text: 'text-indigo-900',
-          accent: 'bg-indigo-500',
-          shadow: 'shadow-indigo-200/50',
-          glow: 'shadow-indigo-400/30',
-        },
-        [NodeType.FILE]: {
-          bg: 'bg-gradient-to-br from-gray-50 to-gray-100',
-          border: 'border-gray-300',
-          text: 'text-gray-900',
-          accent: 'bg-gray-500',
-          shadow: 'shadow-gray-200/50',
-          glow: 'shadow-gray-400/30',
-        },
-        [NodeType.MODULE]: {
-          bg: 'bg-gradient-to-br from-orange-50 to-orange-100',
-          border: 'border-orange-300',
-          text: 'text-orange-900',
-          accent: 'bg-orange-500',
-          shadow: 'shadow-orange-200/50',
-          glow: 'shadow-orange-400/30',
-        },
-      }
-    };
+    const currentTheme = themes[theme];
+    const nodeTheme = currentTheme.colors.nodes[nodeType];
+    
+    if (!nodeTheme) {
+      // Fallback to FILE theme if nodeType not found
+      const fallbackTheme = currentTheme.colors.nodes[NodeType.FILE];
+      return {
+        background: fallbackTheme.background,
+        borderColor: fallbackTheme.border,
+        textColor: fallbackTheme.text,
+        accentColor: fallbackTheme.accent,
+        hoverBackground: fallbackTheme.hover,
+      };
+    }
 
-    return baseColors.light[nodeType] || baseColors.light[NodeType.FILE];
+    return {
+      background: nodeTheme.background,
+      borderColor: nodeTheme.border,
+      textColor: nodeTheme.text,
+      accentColor: nodeTheme.accent,
+      hoverBackground: nodeTheme.hover,
+    };
   };
 
   const getComplexityIndicator = (complexity?: number) => {
@@ -169,34 +145,41 @@ export const CustomNode = memo(({ data, type, selected }: NodeProps<CustomNodeDa
   };
 
   const colors = getNodeColors();
+  const currentTheme = themes[theme];
 
   return (
     <div 
       className={`
         relative min-w-[180px] max-w-[260px] rounded-xl border-2 
-        ${colors.bg} ${colors.border}
-        ${isHovered || selected ? `shadow-lg ${colors.glow}` : `shadow-md ${colors.shadow}`}
         hover:shadow-lg transition-all duration-300 ease-out
         group cursor-pointer
         ${isHovered ? 'scale-105' : 'scale-100'}
         ${selected ? 'ring-2 ring-blue-400 ring-opacity-50' : ''}
       `}
+      style={{
+        backgroundColor: colors.background,
+        borderColor: colors.borderColor,
+        boxShadow: isHovered || selected ? currentTheme.shadows.lg : currentTheme.shadows.md,
+      }}
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
     >
       {/* Accent bar with animation */}
-      <div className={`
-        absolute top-0 left-0 right-0 h-1.5 rounded-t-xl ${colors.accent}
-        transition-all duration-300
-        ${isHovered ? 'h-2' : 'h-1.5'}
-      `} />
+      <div 
+        className={`
+          absolute top-0 left-0 right-0 rounded-t-xl
+          transition-all duration-300
+          ${isHovered ? 'h-2' : 'h-1.5'}
+        `}
+        style={{ backgroundColor: colors.accentColor }}
+      />
       
       {/* Glow effect for selected/hovered state */}
       {(isHovered || selected) && (
-        <div className={`
-          absolute inset-0 rounded-xl ${colors.accent} opacity-10 
-          animate-pulse transition-opacity duration-300
-        `} />
+        <div 
+          className="absolute inset-0 rounded-xl opacity-10 animate-pulse transition-opacity duration-300"
+          style={{ backgroundColor: colors.accentColor }}
+        />
       )}
       
       {/* Node content */}
@@ -212,12 +195,18 @@ export const CustomNode = memo(({ data, type, selected }: NodeProps<CustomNodeDa
           </div>
           <div className="flex-1 min-w-0">
             {data.showLabel !== false && (
-              <div className={`font-semibold text-sm ${colors.text} truncate transition-colors duration-200`}>
+              <div 
+                className="font-semibold text-sm truncate transition-colors duration-200"
+                style={{ color: colors.textColor }}
+              >
                 {data.label}
               </div>
             )}
             {data.description && (
-              <div className="text-xs text-gray-600 mt-1 line-clamp-2 leading-relaxed">
+              <div 
+                className="text-xs mt-1 line-clamp-2 leading-relaxed opacity-80"
+                style={{ color: colors.textColor }}
+              >
                 {data.description}
               </div>
             )}
@@ -237,9 +226,27 @@ export const CustomNode = memo(({ data, type, selected }: NodeProps<CustomNodeDa
           </div>
           
           {data.isServiceCall && (
-            <div className="flex items-center gap-1 px-2 py-1 bg-pink-100 text-pink-700 rounded-full text-xs font-medium">
-              <ExternalLink size={12} />
-              <span>Service</span>
+            <div className={`
+              flex items-center gap-1 px-2 py-1 rounded-full text-xs font-medium
+              ${data.serviceCallType === ServiceCallType.HTTP_REQUEST && data.isExternal 
+                ? 'bg-blue-100 text-blue-700' 
+                : data.serviceCallType === ServiceCallType.DATABASE_QUERY
+                ? 'bg-purple-100 text-purple-700'
+                : data.serviceCallType === ServiceCallType.EXTERNAL_API
+                ? 'bg-indigo-100 text-indigo-700'
+                : 'bg-pink-100 text-pink-700'
+              }
+            `}>
+              {data.serviceCallType === ServiceCallType.HTTP_REQUEST && data.isExternal && <Cloud size={12} />}
+              {data.serviceCallType === ServiceCallType.DATABASE_QUERY && <HardDrive size={12} />}
+              {data.serviceCallType === ServiceCallType.EXTERNAL_API && <Wifi size={12} />}
+              {!data.serviceCallType && <ExternalLink size={12} />}
+              <span>
+                {data.serviceCallType === ServiceCallType.HTTP_REQUEST && data.isExternal ? 'API' :
+                 data.serviceCallType === ServiceCallType.DATABASE_QUERY ? 'DB' :
+                 data.serviceCallType === ServiceCallType.EXTERNAL_API ? 'External' :
+                 'Service'}
+              </span>
             </div>
           )}
         </div>
@@ -270,6 +277,31 @@ export const CustomNode = memo(({ data, type, selected }: NodeProps<CustomNodeDa
             {data.metadata.hooks && Array.isArray(data.metadata.hooks) && (
               <span className="px-2 py-1 bg-purple-100 text-purple-700 text-xs rounded-full font-medium">
                 {data.metadata.hooks.length} hooks
+              </span>
+            )}
+            {data.metadata.method && (
+              <span className="px-2 py-1 bg-green-100 text-green-700 text-xs rounded-full font-medium">
+                {data.metadata.method}
+              </span>
+            )}
+            {data.metadata.orm && (
+              <span className="px-2 py-1 bg-purple-100 text-purple-700 text-xs rounded-full font-medium">
+                {data.metadata.orm}
+              </span>
+            )}
+            {data.metadata.operationType && (
+              <span className={`px-2 py-1 text-xs rounded-full font-medium ${
+                data.metadata.operationType === 'read' ? 'bg-blue-100 text-blue-700' :
+                data.metadata.operationType === 'write' ? 'bg-orange-100 text-orange-700' :
+                data.metadata.operationType === 'delete' ? 'bg-red-100 text-red-700' :
+                'bg-gray-100 text-gray-700'
+              }`}>
+                {data.metadata.operationType}
+              </span>
+            )}
+            {data.metadata.table && (
+              <span className="px-2 py-1 bg-indigo-100 text-indigo-700 text-xs rounded-full font-medium">
+                {data.metadata.table}
               </span>
             )}
           </div>
@@ -305,7 +337,7 @@ export const CustomNode = memo(({ data, type, selected }: NodeProps<CustomNodeDa
         absolute bottom-full left-1/2 transform -translate-x-1/2 mb-3 
         px-3 py-2 bg-gray-900 text-white text-xs rounded-lg
         opacity-0 group-hover:opacity-100 transition-all duration-200 
-        pointer-events-none whitespace-nowrap z-20
+        pointer-events-none whitespace-nowrap z-10
         shadow-lg backdrop-blur-sm
         ${isHovered ? 'translate-y-0' : 'translate-y-1'}
       `}>

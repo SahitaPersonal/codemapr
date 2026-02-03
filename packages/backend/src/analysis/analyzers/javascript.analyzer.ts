@@ -17,10 +17,13 @@ import {
   AnalysisSourceLocation,
   ComplexityMetrics,
 } from '@codemapr/shared';
+import { ServiceAnalyzer } from './service.analyzer';
 
 @Injectable()
 export class JavaScriptAnalyzer {
   private readonly logger = new Logger(JavaScriptAnalyzer.name);
+
+  constructor(private readonly serviceAnalyzer: ServiceAnalyzer) {}
 
   async analyzeFile(filePath: string, content: string): Promise<FileAnalysis> {
     this.logger.debug(`Analyzing JavaScript file: ${filePath}`);
@@ -84,6 +87,9 @@ export class JavaScriptAnalyzer {
       // Calculate complexity metrics
       const complexity = this.calculateComplexity(ast);
 
+      // Analyze service calls
+      const serviceDetection = await this.serviceAnalyzer.analyzeJavaScriptFile(filePath, ast);
+
       return {
         filePath,
         language: this.getLanguageFromPath(filePath),
@@ -94,6 +100,9 @@ export class JavaScriptAnalyzer {
         functions,
         classes,
         complexity,
+        serviceCalls: serviceDetection.serviceCalls,
+        externalServices: serviceDetection.externalServices,
+        databaseOperations: serviceDetection.databaseOperations,
       };
     } catch (error) {
       this.logger.error(`Failed to analyze JavaScript file ${filePath}:`, error);

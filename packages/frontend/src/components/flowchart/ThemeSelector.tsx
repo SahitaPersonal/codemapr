@@ -60,9 +60,10 @@ export function ThemeSelector({ currentTheme, onThemeChange }: ThemeSelectorProp
         onClick={() => setIsOpen(!isOpen)}
         className="flex items-center gap-2 px-3 py-2 bg-white rounded-lg shadow-md border hover:shadow-lg transition-shadow duration-200"
         title="Change Theme"
+        style={{ color: '#111827' }}
       >
         {getThemeIcon(currentTheme)}
-        <span className="text-sm font-medium capitalize">{currentTheme}</span>
+        <span className="text-sm font-medium capitalize" style={{ color: '#111827' }}>{currentTheme}</span>
         <div className="ml-1">
           {getThemePreview(currentTheme)}
         </div>
@@ -78,7 +79,7 @@ export function ThemeSelector({ currentTheme, onThemeChange }: ThemeSelectorProp
           
           {/* Dropdown */}
           <div className="absolute top-full right-0 mt-2 bg-white rounded-lg shadow-xl border p-2 min-w-[200px] z-20">
-            <div className="text-xs font-medium text-gray-500 uppercase tracking-wide mb-2 px-2">
+            <div className="text-xs font-medium uppercase tracking-wide mb-2 px-2" style={{ color: '#6b7280' }}>
               Choose Theme
             </div>
             
@@ -92,28 +93,31 @@ export function ThemeSelector({ currentTheme, onThemeChange }: ThemeSelectorProp
                 className={`
                   w-full flex items-center gap-3 px-3 py-2 rounded-lg text-left
                   hover:bg-gray-50 transition-colors duration-150
-                  ${currentTheme === themeName ? 'bg-blue-50 text-blue-700' : 'text-gray-700'}
+                  ${currentTheme === themeName ? 'bg-blue-50' : ''}
                 `}
+                style={{ 
+                  color: currentTheme === themeName ? '#111827' : '#374151'
+                }}
               >
                 <div className="flex items-center gap-2 flex-1">
                   {getThemeIcon(themeName as ThemeName)}
                   <div>
-                    <div className="font-medium capitalize">{theme.name}</div>
-                    <div className="text-xs text-gray-500">{theme.description}</div>
+                    <div className="font-medium capitalize" style={{ color: '#111827' }}>{theme.name}</div>
+                    <div className="text-xs" style={{ color: '#6b7280' }}>{theme.description}</div>
                   </div>
                 </div>
                 
                 <div className="flex items-center gap-2">
                   {getThemePreview(themeName as ThemeName)}
                   {currentTheme === themeName && (
-                    <Check size={16} className="text-blue-600" />
+                    <Check size={16} style={{ color: '#111827' }} />
                   )}
                 </div>
               </button>
             ))}
             
             <div className="border-t border-gray-200 mt-2 pt-2">
-              <div className="text-xs text-gray-500 px-2">
+              <div className="text-xs px-2" style={{ color: '#6b7280' }}>
                 Themes affect node colors, shadows, and overall visual style
               </div>
             </div>

@@ -100,32 +100,38 @@ export function FlowchartFilters({
   };
 
   return (
-    <div className="absolute top-4 left-4 z-10">
+    <div className="absolute bottom-4 left-4 z-10">
       {/* Filter Toggle Button */}
       <button
         onClick={() => setIsOpen(!isOpen)}
-        className="bg-white rounded-lg shadow-lg border p-3 flex items-center gap-2 hover:bg-gray-50 transition-colors"
+        className="bg-white rounded-lg shadow-lg border border-gray-200 p-3 flex items-center gap-2 hover:bg-gray-50 transition-colors"
+        style={{ color: '#374151' }}
       >
-        <Filter size={16} />
-        <span className="text-sm font-medium">Filters</span>
-        {isOpen ? <ChevronUp size={16} /> : <ChevronDown size={16} />}
+        <Filter size={16} style={{ color: '#6b7280' }} />
+        <span className="text-sm font-medium" style={{ color: '#374151' }}>Filters</span>
+        {isOpen ? 
+          <ChevronUp size={16} style={{ color: '#6b7280' }} /> : 
+          <ChevronDown size={16} style={{ color: '#6b7280' }} />
+        }
       </button>
 
       {/* Filter Panel */}
       {isOpen && (
-        <div className="mt-2 bg-white rounded-lg shadow-lg border p-4 min-w-[300px]">
+        <div className="mb-2 bg-white rounded-lg shadow-xl border border-gray-200 p-4 min-w-[300px] max-h-[calc(100vh-200px)] overflow-y-auto">
           <div className="flex items-center justify-between mb-4">
-            <h3 className="text-lg font-semibold">Filters</h3>
+            <h3 className="text-lg font-semibold" style={{ color: '#111827' }}>Filters</h3>
             <div className="flex gap-2">
               <button
                 onClick={resetFilters}
-                className="text-sm text-blue-600 hover:text-blue-800"
+                className="text-sm font-medium hover:underline"
+                style={{ color: '#2563eb' }}
               >
                 Reset
               </button>
               <button
                 onClick={() => setIsOpen(false)}
                 className="p-1 hover:bg-gray-100 rounded"
+                style={{ color: '#6b7280' }}
               >
                 <X size={16} />
               </button>
@@ -135,7 +141,7 @@ export function FlowchartFilters({
           {/* Complexity Filter */}
           {maxComplexity > 0 && (
             <div className="mb-6">
-              <label className="block text-sm font-medium text-gray-700 mb-2">
+              <label className="block text-sm font-medium mb-2" style={{ color: '#374151' }}>
                 Complexity Range
               </label>
               <div className="flex items-center gap-3">
@@ -146,9 +152,9 @@ export function FlowchartFilters({
                     max={maxComplexity}
                     value={filters.complexity.min}
                     onChange={(e) => handleComplexityChange('min', parseInt(e.target.value))}
-                    className="w-full"
+                    className="w-full accent-blue-600"
                   />
-                  <div className="text-xs text-gray-500 mt-1">
+                  <div className="text-xs mt-1" style={{ color: '#6b7280' }}>
                     Min: {filters.complexity.min}
                   </div>
                 </div>
@@ -159,9 +165,9 @@ export function FlowchartFilters({
                     max={maxComplexity}
                     value={filters.complexity.max}
                     onChange={(e) => handleComplexityChange('max', parseInt(e.target.value))}
-                    className="w-full"
+                    className="w-full accent-blue-600"
                   />
-                  <div className="text-xs text-gray-500 mt-1">
+                  <div className="text-xs mt-1" style={{ color: '#6b7280' }}>
                     Max: {filters.complexity.max}
                   </div>
                 </div>
@@ -171,17 +177,17 @@ export function FlowchartFilters({
 
           {/* Node Type Filter */}
           <div className="mb-6">
-            <label className="block text-sm font-medium text-gray-700 mb-2">
+            <label className="block text-sm font-medium mb-2" style={{ color: '#374151' }}>
               Node Types
             </label>
             <div className="space-y-2">
               {availableNodeTypes.map((nodeType) => (
-                <label key={nodeType} className="flex items-center gap-2">
+                <label key={nodeType} className="flex items-center gap-2 cursor-pointer">
                   <input
                     type="checkbox"
                     checked={filters.nodeTypes.includes(nodeType)}
                     onChange={() => handleNodeTypeToggle(nodeType)}
-                    className="rounded border-gray-300"
+                    className="rounded border-gray-300 text-blue-600 focus:ring-blue-500"
                   />
                   <span className={`px-2 py-1 rounded text-xs font-medium ${getNodeTypeColor(nodeType)}`}>
                     {getNodeTypeLabel(nodeType)}
@@ -193,34 +199,34 @@ export function FlowchartFilters({
 
           {/* Display Options */}
           <div className="mb-4">
-            <label className="block text-sm font-medium text-gray-700 mb-2">
+            <label className="block text-sm font-medium mb-2" style={{ color: '#374151' }}>
               Display Options
             </label>
             <div className="space-y-2">
-              <label className="flex items-center gap-2">
+              <label className="flex items-center gap-2 cursor-pointer">
                 <input
                   type="checkbox"
                   checked={filters.showLabels}
                   onChange={() => handleToggleOption('showLabels')}
-                  className="rounded border-gray-300"
+                  className="rounded border-gray-300 text-blue-600 focus:ring-blue-500"
                 />
-                <span className="text-sm">Show Labels</span>
+                <span className="text-sm" style={{ color: '#374151' }}>Show Labels</span>
               </label>
-              <label className="flex items-center gap-2">
+              <label className="flex items-center gap-2 cursor-pointer">
                 <input
                   type="checkbox"
                   checked={filters.showMiniMap}
                   onChange={() => handleToggleOption('showMiniMap')}
-                  className="rounded border-gray-300"
+                  className="rounded border-gray-300 text-blue-600 focus:ring-blue-500"
                 />
-                <span className="text-sm">Show MiniMap</span>
+                <span className="text-sm" style={{ color: '#374151' }}>Show MiniMap</span>
               </label>
             </div>
           </div>
 
           {/* Filter Summary */}
           <div className="pt-4 border-t border-gray-200">
-            <div className="text-sm text-gray-600">
+            <div className="text-sm" style={{ color: '#6b7280' }}>
               Showing {flowchartData.nodes.filter(node => {
                 const complexity = node.data.complexity || 0;
                 return complexity >= filters.complexity.min && 

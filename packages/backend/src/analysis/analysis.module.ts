@@ -4,6 +4,7 @@ import { AnalysisController } from './analysis.controller';
 import { TypeScriptAnalyzer } from './analyzers/typescript.analyzer';
 import { JavaScriptAnalyzer } from './analyzers/javascript.analyzer';
 import { ReactAnalyzer } from './analyzers/react.analyzer';
+import { ServiceAnalyzer } from './analyzers/service.analyzer';
 import { DependencyTracer } from './tracers/dependency.tracer';
 
 @Module({
@@ -13,6 +14,7 @@ import { DependencyTracer } from './tracers/dependency.tracer';
     TypeScriptAnalyzer,
     JavaScriptAnalyzer,
     ReactAnalyzer,
+    ServiceAnalyzer,
     DependencyTracer,
   ],
   exports: [AnalysisService],

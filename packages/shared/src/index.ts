@@ -20,12 +20,15 @@ export type {
   Position as AnalysisPosition,
   ProjectMetadata,
   ComplexityMetrics,
+  ServiceCall,
 } from './types/analysis';
 
 export {
   SupportedLanguage,
   SymbolType,
   AnalysisStatus,
+  ServiceCallType,
+  HttpMethod,
 } from './types/analysis';
 
 // Flowchart types

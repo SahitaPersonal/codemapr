@@ -19,6 +19,9 @@ export interface FileAnalysis {
   functions: FunctionDeclaration[];
   classes: ClassDeclaration[];
   complexity: ComplexityMetrics;
+  serviceCalls?: ServiceCall[];
+  externalServices?: string[];
+  databaseOperations?: ServiceCall[];
 }
 
 export interface DependencyGraph {
@@ -150,3 +153,35 @@ export enum AnalysisStatus {
   COMPLETED = 'completed',
   FAILED = 'failed'
 }
+
+export interface ServiceCall {
+  id: string;
+  type: ServiceCallType;
+  service: string;
+  method?: HttpMethod;
+  endpoint?: string;
+  operation?: string;
+  location: AnalysisSourceLocation;
+  isExternal: boolean;
+  metadata?: Record<string, any>;
+}
+
+export enum ServiceCallType {
+  HTTP_REQUEST = 'http_request',
+  DATABASE_QUERY = 'database_query',
+  EXTERNAL_API = 'external_api',
+  INTERNAL_SERVICE = 'internal_service'
+}
+
+export enum HttpMethod {
+  GET = 'GET',
+  POST = 'POST',
+  PUT = 'PUT',
+  DELETE = 'DELETE',
+  PATCH = 'PATCH',
+  HEAD = 'HEAD',
+  OPTIONS = 'OPTIONS'
+}
+
+// Alias for consistency with existing code
+export type AnalysisSourceLocation = SourceLocation;

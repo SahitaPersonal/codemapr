@@ -39,6 +39,8 @@ export interface NodeData {
   executionTime?: number;
   isServiceCall?: boolean;
   serviceType?: ServiceType;
+  serviceCallType?: import('./analysis').ServiceCallType;
+  isExternal?: boolean;
   metadata: Record<string, any>;
 }
 

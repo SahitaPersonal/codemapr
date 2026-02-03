@@ -12,21 +12,25 @@ interface CustomEdgeData {
   metadata?: Record<string, any>;
 }
 
-export const CustomEdge = memo(({
-  id,
-  sourceX,
-  sourceY,
-  targetX,
-  targetY,
-  sourcePosition,
-  targetPosition,
-  type,
-  data,
-  markerEnd,
-  selected,
-}: EdgeProps<CustomEdgeData>) => {
+export const CustomEdge = memo((props: EdgeProps<CustomEdgeData>) => {
   const [isHovered, setIsHovered] = useState(false);
-  const edgeType = type as EdgeType;
+  const {
+    id,
+    sourceX,
+    sourceY,
+    targetX,
+    targetY,
+    sourcePosition,
+    targetPosition,
+    data,
+    markerEnd,
+    selected,
+  } = props;
+  
+  // Try to get edge type from multiple sources with fallbacks
+  const edgeType = (props as any).type || 
+                   data?.metadata?.edgeType || 
+                   EdgeType.FUNCTION_CALL;
   
   const [edgePath, labelX, labelY] = getBezierPath({
     sourceX,
@@ -106,7 +110,7 @@ export const CustomEdge = memo(({
         : `${paramCount} params`;
     }
 
-    return labelText;
+    return labelText || null;
   };
 
   const getEdgeColor = () => {
@@ -189,15 +193,17 @@ export const CustomEdge = memo(({
               position: 'absolute',
               transform: `translate(-50%, -50%) translate(${labelX}px,${labelY}px)`,
               pointerEvents: 'all',
+              zIndex: 1000,
             }}
             className={`
               px-3 py-2 text-xs font-semibold rounded-lg border
               ${colorClasses}
-              shadow-sm hover:shadow-md
+              shadow-md hover:shadow-lg
               max-w-[140px] truncate
               ${isHovered || selected ? 'scale-105' : 'scale-100'}
               transition-all duration-200
               cursor-pointer
+              z-50
             `}
             title={labelText}
             onMouseEnter={() => setIsHovered(true)}
@@ -205,7 +211,7 @@ export const CustomEdge = memo(({
           >
             <div className="flex items-center gap-1">
               <span className="text-sm">{getEdgeTypeIcon()}</span>
-              <span>{labelText}</span>
+              <span style={{ color: '#111827' }}>{labelText}</span>
               {data?.isAsync && (
                 <div className="w-2 h-2 bg-blue-500 rounded-full animate-pulse" />
               )}
@@ -222,11 +228,12 @@ export const CustomEdge = memo(({
               position: 'absolute',
               transform: `translate(-50%, -100%) translate(${labelX}px,${labelY - 40}px)`,
               pointerEvents: 'none',
+              zIndex: 1001,
             }}
-            className="px-3 py-2 bg-gray-900 text-white text-xs rounded-lg shadow-lg z-50 whitespace-nowrap"
+            className="px-3 py-2 bg-gray-900 text-white text-xs rounded-lg shadow-xl z-50 whitespace-nowrap"
           >
             <div className="font-medium">
-              {edgeType.replace('_', ' ').replace(/\b\w/g, l => l.toUpperCase())}
+              {edgeType ? edgeType.replace('_', ' ').replace(/\b\w/g, (l: string) => l.toUpperCase()) : 'Connection'}
             </div>
             {data?.callType && (
               <div className="text-gray-300 mt-1">

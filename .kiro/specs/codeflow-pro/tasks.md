@@ -103,7 +103,7 @@ The implementation uses a modern TypeScript stack:
 - [x] 4. Checkpoint - Core analysis functionality complete
   - Ensure all code analysis tests pass, verify TypeScript/JavaScript/React parsing works correctly, test large codebase processing, ask the user if questions arise.
 
-- [-] 5. Develop flowchart generation service
+- [x] 5. Develop flowchart generation service
   - [x] 5.1 Create graph data structures and algorithms
     - Implement TypeScript interfaces for FlowNode, FlowEdge, and FlowchartData
     - Create graph layout algorithms (hierarchical and force-directed) using D3.js
@@ -137,14 +137,14 @@ The implementation uses a modern TypeScript stack:
     - Design responsive layouts for different screen sizes
     - _Requirements: 3.6_
 
-- [ ] 6. Implement service detection and visualization
-  - [ ] 6.1 Add HTTP request and API call detection
+- [-] 6. Implement service detection and visualization
+  - [x] 6.1 Add HTTP request and API call detection
     - Parse fetch, axios, and other HTTP client calls
     - Extract endpoint URLs and request methods
     - Identify external API integrations and third-party services
     - _Requirements: 6.1, 6.3_
 
-  - [ ] 6.2 Implement database operation detection
+  - [x] 6.2 Implement database operation detection
     - Identify database queries and ORM operations
     - Parse SQL queries and database connection patterns
     - Handle various database libraries (Prisma, TypeORM, etc.)
@@ -154,7 +154,7 @@ The implementation uses a modern TypeScript stack:
     - **Property 11: Service call detection**
     - **Validates: Requirements 6.1, 6.2, 6.3**
 
-  - [ ] 6.4 Add visual distinction for service calls
+  - [x] 6.4 Add visual distinction for service calls
     - Create different node styles for service calls vs regular functions
     - Implement color coding and icons for different service types
     - Add visual indicators for external vs internal services
