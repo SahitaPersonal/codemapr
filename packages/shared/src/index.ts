@@ -1,9 +1,89 @@
-// Core types and interfaces
-export * from './types/analysis';
-export * from './types/flowchart';
+// Export all types from individual modules
+// Note: Some types may have naming conflicts, import specifically when needed
+
+// Analysis types
+export type {
+  ProjectAnalysis,
+  FileAnalysis,
+  DependencyGraph,
+  DependencyNode,
+  DependencyEdge,
+  Symbol,
+  ImportDeclaration,
+  ExportDeclaration,
+  FunctionDeclaration,
+  ClassDeclaration,
+  PropertyDeclaration,
+  Parameter,
+  ImportSpecifier,
+  SourceLocation as AnalysisSourceLocation,
+  Position as AnalysisPosition,
+  ProjectMetadata,
+  ComplexityMetrics,
+} from './types/analysis';
+
+export {
+  SupportedLanguage,
+  SymbolType,
+  AnalysisStatus,
+} from './types/analysis';
+
+// Flowchart types
+export type {
+  FlowchartData,
+  FlowNode,
+  FlowEdge,
+  NodeData,
+  EdgeData,
+  NodeStyle,
+  EdgeStyle,
+  Position as FlowchartPosition,
+  SourceLocation as FlowchartSourceLocation,
+  LayoutConfiguration,
+  LayoutSpacing,
+  FlowchartMetadata,
+  FlowchartFilter,
+} from './types/flowchart';
+
+export {
+  FlowchartType,
+  NodeType,
+  EdgeType,
+  ServiceType,
+  CallType,
+  LayoutAlgorithm,
+  LayoutDirection,
+  LayoutAlignment,
+  FilterType,
+} from './types/flowchart';
+
+// Collaboration types
 export * from './types/collaboration';
+
+// AI types
 export * from './types/ai';
-export * from './types/project';
+
+// Project types
+export type {
+  Project,
+  ProjectSettings,
+  AnalysisResult,
+  AnalysisError,
+  AnalysisMetrics,
+  User,
+  UserPreferences,
+  NotificationSettings,
+  FlowchartPreferences,
+} from './types/project';
+
+export {
+  ProjectStatus,
+  AnalysisDepth,
+  ErrorType,
+  ErrorSeverity,
+  UserRole,
+  ColorScheme,
+} from './types/project';
 
 // Utilities
 export * from './utils/constants';

@@ -5,6 +5,8 @@ import { BullModule } from '@nestjs/bull';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { HealthModule } from './health/health.module';
+import { AnalysisModule } from './analysis/analysis.module';
+import { FlowchartModule } from './flowchart/flowchart.module';
 
 @Module({
   imports: [
@@ -31,6 +33,8 @@ import { HealthModule } from './health/health.module';
       },
     }),
     HealthModule,
+    AnalysisModule,
+    FlowchartModule,
   ],
   controllers: [AppController],
   providers: [AppService],

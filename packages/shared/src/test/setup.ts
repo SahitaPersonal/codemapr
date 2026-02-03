@@ -1,12 +1,12 @@
-// Jest setup file for property-based testing
-import fc from 'fast-check';
+// Global test setup for shared package
 
-// Configure fast-check for consistent property-based testing
-fc.configureGlobal({
-  numRuns: 100, // Minimum 100 iterations per property test
-  seed: 42, // Fixed seed for reproducible tests
-  verbose: true,
+// Mock console methods in tests if needed
+const originalConsole = console;
+
+beforeEach(() => {
+  // Reset any mocks or state before each test
 });
 
-// Global test timeout for property-based tests
-jest.setTimeout(30000);
+afterEach(() => {
+  // Cleanup after each test
+});

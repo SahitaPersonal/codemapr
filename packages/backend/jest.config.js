@@ -5,12 +5,16 @@ module.exports = {
   transform: {
     '^.+\\.(t|j)s$': 'ts-jest',
   },
-  collectCoverageFrom: ['**/*.(t|j)s'],
+  collectCoverageFrom: [
+    '**/*.(t|j)s',
+  ],
   coverageDirectory: '../coverage',
   testEnvironment: 'node',
   setupFilesAfterEnv: ['<rootDir>/test/setup.ts'],
-  moduleNameMapping: {
-    '^@codemapr/shared/(.*)$': '<rootDir>/../../shared/src/$1',
+  transformIgnorePatterns: [
+    'node_modules/(?!(uuid)/)',
+  ],
+  moduleNameMapper: {
     '^@codemapr/shared$': '<rootDir>/../../shared/src/index.ts',
   },
 };

@@ -1,12 +1,10 @@
-// Jest setup file for NestJS testing
-import fc from 'fast-check';
+import 'reflect-metadata';
 
-// Configure fast-check for property-based testing
-fc.configureGlobal({
-  numRuns: 100,
-  seed: 42,
-  verbose: true,
+// Global test setup
+beforeAll(async () => {
+  // Setup test database connection if needed
 });
 
-// Global test timeout
-jest.setTimeout(30000);
+afterAll(async () => {
+  // Cleanup test resources
+});
