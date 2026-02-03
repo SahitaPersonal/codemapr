@@ -1,4 +1,4 @@
-# CodeFlow Pro
+# CodeMapr
 
 > Next-generation code visualization platform that automatically generates interactive flowcharts from your codebase
 
@@ -42,8 +42,8 @@ This is a TypeScript monorepo with the following packages:
 
 1. Clone the repository:
 ```bash
-git clone https://github.com/your-username/codeflow-pro.git
-cd codeflow-pro
+git clone https://github.com/your-username/codemapr.git
+cd codemapr
 ```
 
 2. Install dependencies:

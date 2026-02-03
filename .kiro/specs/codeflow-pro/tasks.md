@@ -14,7 +14,7 @@ The implementation uses a modern TypeScript stack:
 
 ## Tasks
 
-- [-] 1. Set up project foundation and core infrastructure
+- [ ] 1. Set up project foundation and core infrastructure
   - Create monorepo structure with TypeScript packages for backend (NestJS), frontend (Next.js), and VSCode extension
   - Configure TypeScript, ESLint, Prettier, and Jest testing framework across all packages
   - Set up NestJS backend with basic API structure, health endpoints, and OpenAPI documentation

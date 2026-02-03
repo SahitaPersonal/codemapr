@@ -23,7 +23,7 @@ async function bootstrap() {
 
   // Swagger API documentation
   const config = new DocumentBuilder()
-    .setTitle('CodeFlow Pro API')
+    .setTitle('CodeMapr API')
     .setDescription('Next-generation code visualization platform API')
     .setVersion('1.0')
     .addBearerAuth()
@@ -35,7 +35,7 @@ async function bootstrap() {
   const port = process.env.PORT || 3001;
   await app.listen(port);
   
-  console.log(`🚀 CodeFlow Pro Backend running on http://localhost:${port}`);
+  console.log(`🚀 CodeMapr Backend running on http://localhost:${port}`);
   console.log(`📚 API Documentation: http://localhost:${port}/api/docs`);
 }
 

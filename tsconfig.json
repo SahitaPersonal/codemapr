@@ -21,9 +21,9 @@
     ],
     "baseUrl": ".",
     "paths": {
-      "@codeflow-pro/shared/*": ["packages/shared/src/*"],
-      "@codeflow-pro/backend/*": ["packages/backend/src/*"],
-      "@codeflow-pro/frontend/*": ["packages/frontend/src/*"]
+      "@codemapr/shared/*": ["packages/shared/src/*"],
+      "@codemapr/backend/*": ["packages/backend/src/*"],
+      "@codemapr/frontend/*": ["packages/frontend/src/*"]
     }
   },
   "include": [

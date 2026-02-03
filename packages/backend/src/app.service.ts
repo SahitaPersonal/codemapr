@@ -4,7 +4,7 @@ import { Injectable } from '@nestjs/common';
 export class AppService {
   getHello(): { message: string; version: string; timestamp: string } {
     return {
-      message: 'CodeFlow Pro API is running!',
+      message: 'CodeMapr API is running!',
       version: '1.0.0',
       timestamp: new Date().toISOString(),
     };

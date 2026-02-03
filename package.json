@@ -1,5 +1,5 @@
 {
-  "name": "codeflow-pro",
+  "name": "codemapr",
   "version": "1.0.0",
   "description": "Next-generation code visualization platform with interactive flowcharts",
   "private": true,
@@ -9,8 +9,8 @@
   "scripts": {
     "build": "npm run build --workspaces",
     "dev": "concurrently \"npm run dev:backend\" \"npm run dev:frontend\"",
-    "dev:backend": "npm run dev --workspace=@codeflow-pro/backend",
-    "dev:frontend": "npm run dev --workspace=@codeflow-pro/frontend",
+    "dev:backend": "npm run dev --workspace=@codemapr/backend",
+    "dev:frontend": "npm run dev --workspace=@codemapr/frontend",
     "test": "npm run test --workspaces",
     "lint": "npm run lint --workspaces",
     "format": "prettier --write \"packages/**/*.{ts,tsx,js,jsx,json,md}\"",
