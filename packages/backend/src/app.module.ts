@@ -1,6 +1,7 @@
 import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
+import { BullModule } from '@nestjs/bull';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 // import { HealthModule } from './health/health.module';
@@ -10,6 +11,7 @@ import { FlowchartModule } from './flowchart/flowchart.module';
 import { CollaborationModule } from './collaboration/collaboration.module';
 import { PreferencesModule } from './preferences/preferences.module';
 import { CompressionModule } from './compression/compression.module';
+import { QueueModule } from './queue/queue.module';
 
 @Module({
   imports: [
@@ -25,6 +27,7 @@ import { CompressionModule } from './compression/compression.module';
       synchronize: true, // Auto-create tables in development
       logging: process.env.NODE_ENV === 'development',
     }),
+    // Redis configuration for job queue (temporarily disabled for testing)
     // BullModule.forRoot({
     //   redis: {
     //     host: process.env.REDIS_HOST || 'localhost',
@@ -39,6 +42,7 @@ import { CompressionModule } from './compression/compression.module';
     CollaborationModule,
     PreferencesModule,
     CompressionModule,
+    // QueueModule, // Temporarily disabled until Redis is available
   ],
   controllers: [AppController],
   providers: [AppService],
