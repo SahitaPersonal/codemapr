@@ -77,6 +77,9 @@ export * from './types/collaboration';
 // AI types
 export * from './types/ai';
 
+// Preferences types
+export * from './types/preferences';
+
 // Project types
 export type {
   Project,

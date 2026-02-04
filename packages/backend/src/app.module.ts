@@ -8,6 +8,8 @@ import { AnalysisModule } from './analysis/analysis.module';
 import { FlowchartModule } from './flowchart/flowchart.module';
 // import { AIModule } from './ai/ai.module';
 import { CollaborationModule } from './collaboration/collaboration.module';
+import { PreferencesModule } from './preferences/preferences.module';
+import { CompressionModule } from './compression/compression.module';
 
 @Module({
   imports: [
@@ -35,6 +37,8 @@ import { CollaborationModule } from './collaboration/collaboration.module';
     FlowchartModule,
     // AIModule,
     CollaborationModule,
+    PreferencesModule,
+    CompressionModule,
   ],
   controllers: [AppController],
   providers: [AppService],

@@ -9,6 +9,8 @@ import { SecurityVulnerabilityController } from './security-vulnerability.contro
 import { SecurityVulnerabilityService } from './security-vulnerability.service';
 import { OptimizationRecommendationController } from './optimization-recommendation.controller';
 import { OptimizationRecommendationService } from './optimization-recommendation.service';
+import { IncrementalAnalysisController } from './incremental-analysis.controller';
+import { IncrementalAnalysisService } from './incremental-analysis.service';
 import { TypeScriptAnalyzer } from './analyzers/typescript.analyzer';
 import { JavaScriptAnalyzer } from './analyzers/javascript.analyzer';
 import { ReactAnalyzer } from './analyzers/react.analyzer';
@@ -25,7 +27,8 @@ import { FlowTracer } from './tracers/flow.tracer';
     ComplexityController, 
     PerformanceMetricsController, 
     SecurityVulnerabilityController,
-    OptimizationRecommendationController
+    OptimizationRecommendationController,
+    IncrementalAnalysisController
   ],
   providers: [
     AnalysisService,
@@ -33,6 +36,7 @@ import { FlowTracer } from './tracers/flow.tracer';
     PerformanceMetricsService,
     SecurityVulnerabilityService,
     OptimizationRecommendationService,
+    IncrementalAnalysisService,
     TypeScriptAnalyzer,
     JavaScriptAnalyzer,
     ReactAnalyzer,
@@ -49,6 +53,7 @@ import { FlowTracer } from './tracers/flow.tracer';
     PerformanceMetricsService,
     SecurityVulnerabilityService,
     OptimizationRecommendationService,
+    IncrementalAnalysisService,
     ComplexityAnalyzer,
   ],
 })
