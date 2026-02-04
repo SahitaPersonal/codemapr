@@ -16,9 +16,17 @@ import {
   Server,
   Cloud,
   Wifi,
-  HardDrive
+  HardDrive,
+  Activity,
+  Gauge,
+  Shield,
+  ShieldAlert,
+  Timer,
+  Cpu,
+  Memory,
+  Flame
 } from 'lucide-react';
-import { NodeType, ServiceCallType } from '@codemapr/shared';
+import { NodeType, ServiceCallType, PerformanceIssue, SecurityVulnerability, PerformanceSeverity, SecuritySeverity } from '@codemapr/shared';
 import { themes } from '../../../lib/flowchartThemes';
 
 interface CustomNodeData {
@@ -26,12 +34,19 @@ interface CustomNodeData {
   description?: string;
   complexity?: number;
   executionTime?: number;
+  performanceScore?: number;
+  securityScore?: number;
+  performanceIssues?: PerformanceIssue[];
+  securityVulnerabilities?: SecurityVulnerability[];
   isServiceCall?: boolean;
   serviceCallType?: ServiceCallType;
   isExternal?: boolean;
   showLabel?: boolean;
   metadata?: Record<string, any>;
   theme?: 'light' | 'dark' | 'ocean';
+  isBottleneck?: boolean;
+  memoryUsage?: number;
+  cpuUsage?: number;
 }
 
 export const CustomNode = memo(({ data, type, selected }: NodeProps<CustomNodeData>) => {
@@ -105,11 +120,32 @@ export const CustomNode = memo(({ data, type, selected }: NodeProps<CustomNodeDa
       };
     }
 
+    // Override colors based on performance and security issues
+    let borderColor = nodeTheme.border;
+    let accentColor = nodeTheme.accent;
+    
+    // Critical security issues get red border
+    const criticalSecurityIssues = data.securityVulnerabilities?.filter(v => v.severity === SecuritySeverity.CRITICAL).length || 0;
+    if (criticalSecurityIssues > 0) {
+      borderColor = '#dc2626'; // red-600
+      accentColor = '#dc2626';
+    }
+    // Performance bottlenecks get orange border
+    else if (data.isBottleneck || (data.performanceScore !== undefined && data.performanceScore < 30)) {
+      borderColor = '#ea580c'; // orange-600
+      accentColor = '#ea580c';
+    }
+    // High complexity gets yellow border
+    else if (data.complexity && data.complexity > 15) {
+      borderColor = '#d97706'; // amber-600
+      accentColor = '#d97706';
+    }
+
     return {
       background: nodeTheme.background,
-      borderColor: nodeTheme.border,
+      borderColor,
       textColor: nodeTheme.text,
-      accentColor: nodeTheme.accent,
+      accentColor,
       hoverBackground: nodeTheme.hover,
     };
   };
@@ -142,6 +178,106 @@ export const CustomNode = memo(({ data, type, selected }: NodeProps<CustomNodeDa
         <span className="hidden group-hover:inline">({level})</span>
       </div>
     );
+  };
+
+  const getPerformanceIndicator = (performanceScore?: number, executionTime?: number) => {
+    if (!performanceScore && !executionTime) return null;
+    
+    let colorClass = 'text-green-600 bg-green-100';
+    let level = 'Good';
+    let icon = <Activity size={12} />;
+    
+    if (performanceScore !== undefined) {
+      if (performanceScore < 30) {
+        colorClass = 'text-red-600 bg-red-100';
+        level = 'Poor';
+        icon = <Flame size={12} />;
+      } else if (performanceScore < 60) {
+        colorClass = 'text-yellow-600 bg-yellow-100';
+        level = 'Fair';
+        icon = <Gauge size={12} />;
+      }
+    }
+
+    return (
+      <div className={`flex items-center gap-1 px-2 py-1 rounded-full text-xs font-medium ${colorClass} transition-all duration-200`}>
+        {icon}
+        <span>{performanceScore ? `${performanceScore}%` : `${executionTime}ms`}</span>
+        <span className="hidden group-hover:inline">({level})</span>
+      </div>
+    );
+  };
+
+  const getSecurityIndicator = (securityScore?: number, vulnerabilities?: SecurityVulnerability[]) => {
+    if (!securityScore && !vulnerabilities?.length) return null;
+    
+    let colorClass = 'text-green-600 bg-green-100';
+    let level = 'Secure';
+    let icon = <Shield size={12} />;
+    
+    const criticalVulns = vulnerabilities?.filter(v => v.severity === SecuritySeverity.CRITICAL).length || 0;
+    const highVulns = vulnerabilities?.filter(v => v.severity === SecuritySeverity.HIGH).length || 0;
+    
+    if (criticalVulns > 0 || (securityScore !== undefined && securityScore < 30)) {
+      colorClass = 'text-red-600 bg-red-100';
+      level = 'Critical';
+      icon = <ShieldAlert size={12} />;
+    } else if (highVulns > 0 || (securityScore !== undefined && securityScore < 60)) {
+      colorClass = 'text-yellow-600 bg-yellow-100';
+      level = 'Warning';
+      icon = <ShieldAlert size={12} />;
+    }
+
+    return (
+      <div className={`flex items-center gap-1 px-2 py-1 rounded-full text-xs font-medium ${colorClass} transition-all duration-200`}>
+        {icon}
+        <span>{securityScore ? `${securityScore}%` : `${vulnerabilities?.length || 0}`}</span>
+        <span className="hidden group-hover:inline">({level})</span>
+      </div>
+    );
+  };
+
+  const getBottleneckIndicator = () => {
+    if (!data.isBottleneck) return null;
+    
+    return (
+      <div className="flex items-center gap-1 px-2 py-1 bg-red-100 text-red-700 rounded-full text-xs font-medium animate-pulse">
+        <Flame size={12} />
+        <span>Bottleneck</span>
+      </div>
+    );
+  };
+
+  const getResourceUsageIndicators = () => {
+    const indicators = [];
+    
+    if (data.cpuUsage !== undefined) {
+      const cpuColorClass = data.cpuUsage > 80 ? 'text-red-600 bg-red-100' :
+                           data.cpuUsage > 60 ? 'text-yellow-600 bg-yellow-100' :
+                           'text-green-600 bg-green-100';
+      
+      indicators.push(
+        <div key="cpu" className={`flex items-center gap-1 px-2 py-1 rounded-full text-xs font-medium ${cpuColorClass}`}>
+          <Cpu size={12} />
+          <span>{data.cpuUsage}%</span>
+        </div>
+      );
+    }
+    
+    if (data.memoryUsage !== undefined) {
+      const memoryColorClass = data.memoryUsage > 80 ? 'text-red-600 bg-red-100' :
+                              data.memoryUsage > 60 ? 'text-yellow-600 bg-yellow-100' :
+                              'text-green-600 bg-green-100';
+      
+      indicators.push(
+        <div key="memory" className={`flex items-center gap-1 px-2 py-1 rounded-full text-xs font-medium ${memoryColorClass}`}>
+          <Memory size={12} />
+          <span>{data.memoryUsage}MB</span>
+        </div>
+      );
+    }
+    
+    return indicators;
   };
 
   const colors = getNodeColors();
@@ -215,18 +351,28 @@ export const CustomNode = memo(({ data, type, selected }: NodeProps<CustomNodeDa
         </div>
 
         {/* Metrics Row */}
-        <div className="flex items-center justify-between gap-2 mb-2">
-          <div className="flex items-center gap-2">
-            {getComplexityIndicator(data.complexity)}
-            {data.executionTime && (
-              <div className="flex items-center gap-1 px-2 py-1 bg-blue-100 text-blue-700 rounded-full text-xs font-medium">
-                <Clock size={12} />
-                <span>{data.executionTime}ms</span>
-              </div>
-            )}
+        <div className="flex flex-wrap items-center gap-2 mb-2">
+          {getComplexityIndicator(data.complexity)}
+          {getPerformanceIndicator(data.performanceScore, data.executionTime)}
+          {getSecurityIndicator(data.securityScore, data.securityVulnerabilities)}
+          {getBottleneckIndicator()}
+          {data.executionTime && !data.performanceScore && (
+            <div className="flex items-center gap-1 px-2 py-1 bg-blue-100 text-blue-700 rounded-full text-xs font-medium">
+              <Timer size={12} />
+              <span>{data.executionTime}ms</span>
+            </div>
+          )}
+        </div>
+
+        {/* Resource Usage Row */}
+        {(data.cpuUsage !== undefined || data.memoryUsage !== undefined) && (
+          <div className="flex flex-wrap items-center gap-2 mb-2">
+            {getResourceUsageIndicators()}
           </div>
-          
-          {data.isServiceCall && (
+        )}
+        {/* Service Call Indicator */}
+        {data.isServiceCall && (
+          <div className="flex items-center justify-end mb-2">
             <div className={`
               flex items-center gap-1 px-2 py-1 rounded-full text-xs font-medium
               ${data.serviceCallType === ServiceCallType.HTTP_REQUEST && data.isExternal 
@@ -249,8 +395,8 @@ export const CustomNode = memo(({ data, type, selected }: NodeProps<CustomNodeDa
                  'Service'}
               </span>
             </div>
-          )}
-        </div>
+          </div>
+        )}
 
         {/* Warning indicators */}
         {data.complexity && data.complexity > 15 && (
@@ -258,6 +404,36 @@ export const CustomNode = memo(({ data, type, selected }: NodeProps<CustomNodeDa
             <AlertCircle size={14} className="text-red-600 flex-shrink-0" />
             <span className="text-red-700 text-xs font-medium">
               Critical Complexity - Consider Refactoring
+            </span>
+          </div>
+        )}
+
+        {/* Performance Issues */}
+        {data.performanceIssues && data.performanceIssues.length > 0 && (
+          <div className="flex items-center gap-2 mt-2 p-2 bg-orange-50 border border-orange-200 rounded-lg">
+            <Flame size={14} className="text-orange-600 flex-shrink-0" />
+            <span className="text-orange-700 text-xs font-medium">
+              {data.performanceIssues.length} Performance Issue{data.performanceIssues.length > 1 ? 's' : ''}
+            </span>
+          </div>
+        )}
+
+        {/* Security Vulnerabilities */}
+        {data.securityVulnerabilities && data.securityVulnerabilities.length > 0 && (
+          <div className="flex items-center gap-2 mt-2 p-2 bg-red-50 border border-red-200 rounded-lg">
+            <ShieldAlert size={14} className="text-red-600 flex-shrink-0" />
+            <span className="text-red-700 text-xs font-medium">
+              {data.securityVulnerabilities.length} Security Issue{data.securityVulnerabilities.length > 1 ? 's' : ''}
+            </span>
+          </div>
+        )}
+
+        {/* Bottleneck Warning */}
+        {data.isBottleneck && (
+          <div className="flex items-center gap-2 mt-2 p-2 bg-red-50 border border-red-200 rounded-lg animate-pulse">
+            <Flame size={14} className="text-red-600 flex-shrink-0" />
+            <span className="text-red-700 text-xs font-medium">
+              Performance Bottleneck Detected
             </span>
           </div>
         )}
@@ -353,6 +529,31 @@ export const CustomNode = memo(({ data, type, selected }: NodeProps<CustomNodeDa
         {data.executionTime && (
           <div className="text-gray-300">
             Execution: {data.executionTime}ms
+          </div>
+        )}
+        {data.performanceScore && (
+          <div className="text-gray-300">
+            Performance: {data.performanceScore}%
+          </div>
+        )}
+        {data.securityScore && (
+          <div className="text-gray-300">
+            Security: {data.securityScore}%
+          </div>
+        )}
+        {data.cpuUsage !== undefined && (
+          <div className="text-gray-300">
+            CPU: {data.cpuUsage}%
+          </div>
+        )}
+        {data.memoryUsage !== undefined && (
+          <div className="text-gray-300">
+            Memory: {data.memoryUsage}MB
+          </div>
+        )}
+        {data.isBottleneck && (
+          <div className="text-red-400 font-medium">
+            ⚠️ Bottleneck
           </div>
         )}
         {/* Tooltip arrow */}
