@@ -12,6 +12,7 @@ import { CollaborationModule } from './collaboration/collaboration.module';
 import { PreferencesModule } from './preferences/preferences.module';
 import { CompressionModule } from './compression/compression.module';
 import { QueueModule } from './queue/queue.module';
+import { ErrorHandlingModule } from './common/errors/error-handling.module';
 
 @Module({
   imports: [
@@ -42,6 +43,7 @@ import { QueueModule } from './queue/queue.module';
     CollaborationModule,
     PreferencesModule,
     CompressionModule,
+    ErrorHandlingModule,
     // QueueModule, // Temporarily disabled until Redis is available
   ],
   controllers: [AppController],
