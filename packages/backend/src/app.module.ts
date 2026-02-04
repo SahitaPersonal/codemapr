@@ -13,6 +13,7 @@ import { PreferencesModule } from './preferences/preferences.module';
 import { CompressionModule } from './compression/compression.module';
 import { QueueModule } from './queue/queue.module';
 import { ErrorHandlingModule } from './common/errors/error-handling.module';
+import { NotificationModule } from './notifications/notification.module';
 
 @Module({
   imports: [
@@ -44,6 +45,7 @@ import { ErrorHandlingModule } from './common/errors/error-handling.module';
     PreferencesModule,
     CompressionModule,
     ErrorHandlingModule,
+    NotificationModule,
     // QueueModule, // Temporarily disabled until Redis is available
   ],
   controllers: [AppController],
