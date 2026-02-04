@@ -7,6 +7,8 @@ import { PerformanceMetricsController } from './performance-metrics.controller';
 import { PerformanceMetricsService } from './performance-metrics.service';
 import { SecurityVulnerabilityController } from './security-vulnerability.controller';
 import { SecurityVulnerabilityService } from './security-vulnerability.service';
+import { OptimizationRecommendationController } from './optimization-recommendation.controller';
+import { OptimizationRecommendationService } from './optimization-recommendation.service';
 import { TypeScriptAnalyzer } from './analyzers/typescript.analyzer';
 import { JavaScriptAnalyzer } from './analyzers/javascript.analyzer';
 import { ReactAnalyzer } from './analyzers/react.analyzer';
@@ -18,12 +20,19 @@ import { DependencyTracer } from './tracers/dependency.tracer';
 import { FlowTracer } from './tracers/flow.tracer';
 
 @Module({
-  controllers: [AnalysisController, ComplexityController, PerformanceMetricsController, SecurityVulnerabilityController],
+  controllers: [
+    AnalysisController, 
+    ComplexityController, 
+    PerformanceMetricsController, 
+    SecurityVulnerabilityController,
+    OptimizationRecommendationController
+  ],
   providers: [
     AnalysisService,
     ComplexityService,
     PerformanceMetricsService,
     SecurityVulnerabilityService,
+    OptimizationRecommendationService,
     TypeScriptAnalyzer,
     JavaScriptAnalyzer,
     ReactAnalyzer,
@@ -39,6 +48,7 @@ import { FlowTracer } from './tracers/flow.tracer';
     ComplexityService,
     PerformanceMetricsService,
     SecurityVulnerabilityService,
+    OptimizationRecommendationService,
     ComplexityAnalyzer,
   ],
 })
