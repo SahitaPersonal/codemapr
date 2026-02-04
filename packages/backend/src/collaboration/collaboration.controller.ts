@@ -21,7 +21,10 @@ import {
 } from '@nestjs/swagger';
 import { IsString, IsOptional, IsBoolean, IsNumber } from 'class-validator';
 import { CollaborationService, CollaborationSession, Annotation } from './collaboration.service';
+import { CollaborationPersistentService } from './collaboration-persistent.service';
+import { NotificationService } from './notification.service';
 import { OperationalTransformService } from './operational-transform.service';
+import { Notification } from './entities';
 
 export class CreateSessionDto {
   @IsString()
@@ -80,6 +83,8 @@ export class CollaborationController {
 
   constructor(
     private readonly collaborationService: CollaborationService,
+    private readonly persistentService: CollaborationPersistentService,
+    private readonly notificationService: NotificationService,
     private readonly operationalTransformService: OperationalTransformService,
   ) {}
 
@@ -540,6 +545,174 @@ export class CollaborationController {
       this.logger.error(`Failed to get OT stats: ${error.message}`);
       throw new HttpException(
         'Failed to retrieve statistics',
+        HttpStatus.INTERNAL_SERVER_ERROR,
+      );
+    }
+  }
+
+  // Notification Endpoints
+  @Get('users/:userId/notifications')
+  @ApiOperation({
+    summary: 'Get user notifications',
+    description: 'Retrieves notifications for a specific user',
+  })
+  @ApiParam({ name: 'userId', description: 'User ID' })
+  @ApiQuery({ name: 'limit', required: false, description: 'Number of notifications to return' })
+  @ApiResponse({
+    status: 200,
+    description: 'Notifications retrieved successfully',
+  })
+  async getUserNotifications(
+    @Param('userId') userId: string,
+    @Query('limit') limit?: string,
+  ): Promise<Notification[]> {
+    try {
+      const limitNum = limit ? parseInt(limit, 10) : 50;
+      return await this.persistentService.getUserNotifications(userId, limitNum);
+    } catch (error) {
+      this.logger.error(`Failed to get user notifications: ${error.message}`);
+      throw new HttpException(
+        'Failed to retrieve notifications',
+        HttpStatus.INTERNAL_SERVER_ERROR,
+      );
+    }
+  }
+
+  @Get('users/:userId/notifications/unread-count')
+  @ApiOperation({
+    summary: 'Get unread notification count',
+    description: 'Gets the count of unread notifications for a user',
+  })
+  @ApiParam({ name: 'userId', description: 'User ID' })
+  @ApiResponse({
+    status: 200,
+    description: 'Unread count retrieved successfully',
+    schema: {
+      type: 'object',
+      properties: {
+        count: { type: 'number' },
+      },
+    },
+  })
+  async getUnreadNotificationCount(@Param('userId') userId: string) {
+    try {
+      const count = await this.notificationService.getUnreadNotificationCount(userId);
+      return { count };
+    } catch (error) {
+      this.logger.error(`Failed to get unread notification count: ${error.message}`);
+      throw new HttpException(
+        'Failed to retrieve unread count',
+        HttpStatus.INTERNAL_SERVER_ERROR,
+      );
+    }
+  }
+
+  @Put('notifications/:notificationId/read')
+  @ApiOperation({
+    summary: 'Mark notification as read',
+    description: 'Marks a specific notification as read',
+  })
+  @ApiParam({ name: 'notificationId', description: 'Notification ID' })
+  @ApiBody({
+    schema: {
+      type: 'object',
+      properties: {
+        userId: { type: 'string' },
+      },
+      required: ['userId'],
+    },
+  })
+  @ApiResponse({
+    status: 200,
+    description: 'Notification marked as read',
+  })
+  async markNotificationAsRead(
+    @Param('notificationId') notificationId: string,
+    @Body() body: { userId: string },
+  ) {
+    try {
+      await this.notificationService.markAsRead(notificationId, body.userId);
+      return { success: true, message: 'Notification marked as read' };
+    } catch (error) {
+      this.logger.error(`Failed to mark notification as read: ${error.message}`);
+      throw new HttpException(
+        'Failed to mark notification as read',
+        HttpStatus.INTERNAL_SERVER_ERROR,
+      );
+    }
+  }
+
+  @Put('users/:userId/notifications/read-all')
+  @ApiOperation({
+    summary: 'Mark all notifications as read',
+    description: 'Marks all notifications as read for a user',
+  })
+  @ApiParam({ name: 'userId', description: 'User ID' })
+  @ApiResponse({
+    status: 200,
+    description: 'All notifications marked as read',
+  })
+  async markAllNotificationsAsRead(@Param('userId') userId: string) {
+    try {
+      await this.notificationService.markAllAsRead(userId);
+      return { success: true, message: 'All notifications marked as read' };
+    } catch (error) {
+      this.logger.error(`Failed to mark all notifications as read: ${error.message}`);
+      throw new HttpException(
+        'Failed to mark all notifications as read',
+        HttpStatus.INTERNAL_SERVER_ERROR,
+      );
+    }
+  }
+
+  @Post('sessions/:sessionId/invite')
+  @ApiOperation({
+    summary: 'Invite user to session',
+    description: 'Sends an invitation to a user to join a collaboration session',
+  })
+  @ApiParam({ name: 'sessionId', description: 'Session ID' })
+  @ApiBody({
+    schema: {
+      type: 'object',
+      properties: {
+        invitedUserId: { type: 'string' },
+        invitedBy: { type: 'string' },
+        invitedByUsername: { type: 'string' },
+      },
+      required: ['invitedUserId', 'invitedBy', 'invitedByUsername'],
+    },
+  })
+  @ApiResponse({
+    status: 200,
+    description: 'Invitation sent successfully',
+  })
+  async inviteUserToSession(
+    @Param('sessionId') sessionId: string,
+    @Body() body: {
+      invitedUserId: string;
+      invitedBy: string;
+      invitedByUsername: string;
+    },
+  ) {
+    try {
+      const session = await this.persistentService.getSession(sessionId);
+      
+      await this.notificationService.sendSessionInvitation(
+        body.invitedUserId,
+        sessionId,
+        session.name,
+        body.invitedBy,
+        body.invitedByUsername,
+      );
+
+      return { success: true, message: 'Invitation sent successfully' };
+    } catch (error) {
+      if (error.message.includes('not found')) {
+        throw new HttpException('Session not found', HttpStatus.NOT_FOUND);
+      }
+      this.logger.error(`Failed to send invitation: ${error.message}`);
+      throw new HttpException(
+        'Failed to send invitation',
         HttpStatus.INTERNAL_SERVER_ERROR,
       );
     }
