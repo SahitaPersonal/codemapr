@@ -11,7 +11,6 @@ import {
   Globe,
   Package,
   AlertCircle,
-  Clock,
   TrendingUp,
   Server,
   Cloud,
@@ -23,10 +22,10 @@ import {
   ShieldAlert,
   Timer,
   Cpu,
-  Memory,
+  HardDrive as MemoryIcon,
   Flame
 } from 'lucide-react';
-import { NodeType, ServiceCallType, PerformanceIssue, SecurityVulnerability, PerformanceSeverity, SecuritySeverity } from '@codemapr/shared';
+import { NodeType, ServiceCallType, PerformanceIssue, SecurityVulnerability, SecuritySeverity } from '@codemapr/shared';
 import { themes } from '../../../lib/flowchartThemes';
 
 interface CustomNodeData {
@@ -271,7 +270,7 @@ export const CustomNode = memo(({ data, type, selected }: NodeProps<CustomNodeDa
       
       indicators.push(
         <div key="memory" className={`flex items-center gap-1 px-2 py-1 rounded-full text-xs font-medium ${memoryColorClass}`}>
-          <Memory size={12} />
+          <MemoryIcon size={12} />
           <span>{data.memoryUsage}MB</span>
         </div>
       );

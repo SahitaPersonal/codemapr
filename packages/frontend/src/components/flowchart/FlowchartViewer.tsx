@@ -78,6 +78,8 @@ function FlowchartViewerInner({
 
   // Convert flowchart data to React Flow format
   const convertedNodes = useMemo(() => {
+    if (!flowchartData?.nodes) return [];
+    
     return flowchartData.nodes.map((node) => ({
       id: node.id,
       type: node.type,
@@ -91,9 +93,11 @@ function FlowchartViewerInner({
       draggable: node.draggable,
       selectable: node.selectable,
     }));
-  }, [flowchartData.nodes, filters.showLabels, selectedTheme]);
+  }, [flowchartData?.nodes, filters.showLabels, selectedTheme]);
 
   const convertedEdges = useMemo(() => {
+    if (!flowchartData?.edges) return [];
+    
     return flowchartData.edges.map((edge) => ({
       id: edge.id,
       source: edge.source,
@@ -103,7 +107,7 @@ function FlowchartViewerInner({
       style: edge.style,
       animated: edge.animated,
     }));
-  }, [flowchartData.edges]);
+  }, [flowchartData?.edges]);
 
   // Apply filters
   const filteredNodes = useMemo(() => {

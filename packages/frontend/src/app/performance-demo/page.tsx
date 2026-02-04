@@ -9,7 +9,7 @@ import {
   Shield, 
   Clock, 
   Cpu, 
-  Memory, 
+  HardDrive as MemoryIcon, 
   TrendingUp, 
   AlertTriangle,
   CheckCircle,
@@ -138,7 +138,7 @@ export default function PerformanceDemoPage() {
               </div>
               <div className="h-[600px]">
                 <FlowchartViewer
-                  data={{
+                  flowchartData={{
                     ...mockPerformanceFlowchartData,
                     nodes: mockPerformanceFlowchartData.nodes.map(node => ({
                       ...node,
