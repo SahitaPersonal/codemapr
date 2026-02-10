@@ -10,61 +10,158 @@ This guide covers deploying CodeMapr to various platforms.
 
 ## Deployment Options
 
-### Option 1: GitHub → Railway (Backend) + Vercel (Frontend) - Recommended ✅
+### Option 1: Render (Backend) + Vercel (Frontend) - 100% Free Forever ✅
 
-#### Backend Deployment (Railway via GitHub)
+**Why Render?**
+- ✅ Permanent free tier (not a trial)
+- ✅ GitHub auto-deployment
+- ✅ No credit card required
+- ⚠️ Spins down after 15 min inactivity (30s cold start)
 
-1. **Sign up for Railway**
-   - Go to https://railway.app
-   - **Sign in with GitHub** (this connects your repositories)
+#### Backend Deployment (Render via GitHub)
 
-2. **Deploy from GitHub**
-   - Click "New Project"
-   - Select **"Deploy from GitHub repo"**
+1. **Sign up for Render**
+   - Go to https://render.com
+   - **Sign in with GitHub**
+
+2. **Create Web Service**
+   - Click "New" → "Web Service"
+   - Select **"Build and deploy from a Git repository"**
    - Choose your `codemapr` repository
-   - Railway will automatically detect the Dockerfile
+   - Click "Connect"
 
-3. **Configure Backend Service**
-   - Railway auto-detects `railway.json` configuration
-   - Set environment variables:
-     ```
-     NODE_ENV=production
-     PORT=3001
-     ```
+3. **Configure Service**
+   - Name: `codemapr-backend`
+   - Region: Choose closest to you
+   - Branch: `main`
+   - Root Directory: Leave empty
+   - Runtime: `Node`
+   - Build Command: `cd packages/backend && npm install && npm run build`
+   - Start Command: `cd packages/backend && npm run start:prod`
+   - Plan: **Free** (select this!)
 
-4. **Automatic Deployments**
-   - ✅ Every push to `main` branch auto-deploys
-   - ✅ No manual deployment needed
-   - Note the public URL (e.g., `https://codemapr-backend.up.railway.app`)
+4. **Set Environment Variables**
+   ```
+   NODE_ENV=production
+   PORT=3001
+   ```
+
+5. **Deploy**
+   - Click "Create Web Service"
+   - ✅ Auto-deploys on every push to `main`
+   - Get your URL: `https://codemapr-backend.onrender.com`
 
 #### Frontend Deployment (Vercel via GitHub)
 
 1. **Sign up for Vercel**
    - Go to https://vercel.com
-   - **Sign in with GitHub** (this connects your repositories)
+   - **Sign in with GitHub**
 
 2. **Import from GitHub**
    - Click "Add New" → "Project"
-   - Select your `codemapr` repository from the list
-   - Vercel will auto-detect Next.js
+   - Select your `codemapr` repository
 
 3. **Configure Build Settings**
    - Framework Preset: Next.js (auto-detected)
    - Root Directory: `packages/frontend`
-   - Build Command: `npm run build` (auto-detected)
-   - Output Directory: `.next` (auto-detected)
+   - Build Command: `npm run build`
+   - Output Directory: `.next`
 
 4. **Set Environment Variables**
    ```
-   NEXT_PUBLIC_API_URL=https://your-backend-url.up.railway.app
+   NEXT_PUBLIC_API_URL=https://codemapr-backend.onrender.com
    ```
 
-5. **Automatic Deployments**
-   - ✅ Every push to `main` branch auto-deploys
-   - ✅ Preview deployments for pull requests
-   - ✅ No manual deployment needed
+5. **Deploy**
+   - Click "Deploy"
+   - ✅ Auto-deploys on every push to `main`
+   - ✅ 100% free forever
 
-### Option 2: GitHub → Render (Full Stack)
+---
+
+### Option 2: Fly.io (Backend) + Vercel (Frontend) - No Cold Starts
+
+**Why Fly.io?**
+- ✅ Permanent free tier
+- ✅ No cold starts (always running)
+- ✅ 3 VMs free
+- ⚠️ Requires credit card (but won't charge)
+
+#### Backend Deployment (Fly.io)
+
+1. **Install Fly CLI**
+   ```bash
+   # Windows (PowerShell)
+   iwr https://fly.io/install.ps1 -useb | iex
+   
+   # Mac/Linux
+   curl -L https://fly.io/install.sh | sh
+   ```
+
+2. **Sign up and Login**
+   ```bash
+   fly auth signup
+   # or
+   fly auth login
+   ```
+
+3. **Deploy Backend**
+   ```bash
+   cd packages/backend
+   fly launch --name codemapr-backend --region ord
+   ```
+
+4. **Set Environment Variables**
+   ```bash
+   fly secrets set NODE_ENV=production PORT=8080
+   ```
+
+5. **Deploy**
+   ```bash
+   fly deploy
+   ```
+   - Get your URL: `https://codemapr-backend.fly.dev`
+
+---
+
+### Option 3: Railway (Backend) - $5 Credit (30 Days Trial)
+
+**Why Railway?**
+- ✅ Easy GitHub integration
+- ✅ Great developer experience
+- ⚠️ Only $5 credit (~30 days free)
+- ⚠️ Requires payment after trial
+
+*Use this only if you plan to pay after 30 days or for testing*
+
+---
+
+### Option 4: Cyclic.sh (Backend) + Vercel (Frontend) - Serverless
+
+**Why Cyclic?**
+- ✅ Permanent free tier
+- ✅ GitHub auto-deployment
+- ✅ No cold starts
+- ⚠️ 10,000 requests/month limit
+
+#### Backend Deployment (Cyclic)
+
+1. **Sign up for Cyclic**
+   - Go to https://cyclic.sh
+   - Sign in with GitHub
+
+2. **Deploy from GitHub**
+   - Click "Link Your Own"
+   - Select `codemapr` repository
+   - Cyclic auto-detects and deploys
+
+3. **Configure**
+   - Root: `packages/backend`
+   - Build: Auto-detected
+   - Start: `npm run start:prod`
+
+4. **Get URL**
+   - `https://codemapr-backend.cyclic.app`
 
 1. **Sign up for Render**
    - Go to https://render.com
