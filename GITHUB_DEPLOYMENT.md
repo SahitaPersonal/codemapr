@@ -21,7 +21,8 @@ You need to do this **once** to get API tokens:
    - Click "New" → "Web Service"
    - Connect your `codemapr` repository
    - Name: `codemapr-backend`
-   - Build Command: `cd packages/backend && npm install && npm run build`
+   - Root Directory: Leave empty (uses repo root)
+   - Build Command: `npm install --workspaces && npm run build --workspace=packages/shared && npm run build --workspace=packages/backend`
    - Start Command: `cd packages/backend && npm run start:prod`
    - Plan: **Free**
 3. After creation, go to Settings → Deploy Hook

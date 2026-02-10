@@ -4,7 +4,7 @@ services:
     env: node
     region: oregon
     plan: free
-    buildCommand: cd packages/backend && npm install && npm run build
+    buildCommand: npm install --workspaces && npm run build --workspace=packages/shared && npm run build --workspace=packages/backend
     startCommand: cd packages/backend && npm run start:prod
     envVars:
       - key: NODE_ENV
@@ -21,11 +21,13 @@ services:
 
   - type: web
     name: codemapr-frontend
-    env: static
+    env: node
     region: oregon
     plan: free
-    buildCommand: cd packages/frontend && npm install && npm run build
-    staticPublishPath: packages/frontend/.next
+    buildCommand: npm install --workspaces && npm run build --workspace=packages/shared && npm run build --workspace=packages/frontend
+    startCommand: cd packages/frontend && npm start
     envVars:
       - key: NEXT_PUBLIC_API_URL
         value: https://codemapr-backend.onrender.com
+      - key: NODE_ENV
+        value: production
