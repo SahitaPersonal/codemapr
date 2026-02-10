@@ -182,9 +182,12 @@ function FlowchartViewerInner({
 
   // Navigation to source code
   const handleNavigateToSource = useCallback((sourceLocation: any) => {
-    // This would integrate with VS Code or open file in editor
     console.log('Navigate to source:', sourceLocation);
-    // TODO: Implement actual navigation
+    
+    if (sourceLocation && sourceLocation.filePath) {
+      const message = `File: ${sourceLocation.filePath}\nLine: ${sourceLocation.startLine || 'N/A'}${sourceLocation.endLine && sourceLocation.endLine !== sourceLocation.startLine ? ` - ${sourceLocation.endLine}` : ''}\n\nNote: Web browsers cannot directly open files in external editors for security reasons. Please open this file manually in your preferred code editor.`;
+      alert(message);
+    }
   }, []);
 
   // Layout controls

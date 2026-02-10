@@ -60,13 +60,13 @@ export class FlowchartController {
   })
   async generateFlowchart(
     @Body() generateDto: GenerateFlowchartDto,
-    @Body('analysisData') analysisData: ProjectAnalysis | FileAnalysis,
   ): Promise<FlowchartResponseDto> {
     const startTime = Date.now();
 
     try {
       this.logger.debug(`Generating ${generateDto.type} flowchart`);
 
+      const analysisData = generateDto.analysisData;
       let flowchart;
 
       switch (generateDto.type) {

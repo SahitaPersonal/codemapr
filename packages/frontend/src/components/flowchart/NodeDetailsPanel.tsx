@@ -143,11 +143,19 @@ export function NodeDetailsPanel({
             <div className="grid grid-cols-2 gap-4">
               {selectedNode.data.complexity !== undefined && (
                 <div className="bg-blue-50 rounded-lg p-3">
-                  <h4 className="text-sm font-medium text-blue-900 mb-1">
+                  <h4 className="text-sm font-medium text-blue-900 mb-1 flex items-center gap-1">
                     Complexity
+                    <span className="text-xs text-blue-700 cursor-help" title="Cyclomatic Complexity: Measures the number of independent paths through the code. Lower is better.">
+                      ⓘ
+                    </span>
                   </h4>
                   <p className="text-lg font-semibold text-blue-700">
                     {formatComplexity(selectedNode.data.complexity)}
+                  </p>
+                  <p className="text-xs text-blue-600 mt-1">
+                    {selectedNode.data.complexity <= 5 && 'Easy to maintain'}
+                    {selectedNode.data.complexity > 5 && selectedNode.data.complexity <= 10 && 'Moderate complexity'}
+                    {selectedNode.data.complexity > 10 && 'Consider refactoring'}
                   </p>
                 </div>
               )}

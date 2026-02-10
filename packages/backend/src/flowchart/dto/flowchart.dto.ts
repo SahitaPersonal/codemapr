@@ -19,6 +19,13 @@ export class GenerateFlowchartDto {
   @IsString()
   filePath?: string;
 
+  @ApiProperty({
+    description: 'Analysis data to generate flowchart from',
+    type: 'object',
+  })
+  @IsObject()
+  analysisData: any;
+
   @ApiPropertyOptional({
     description: 'Layout algorithm to use',
     enum: LayoutAlgorithm,

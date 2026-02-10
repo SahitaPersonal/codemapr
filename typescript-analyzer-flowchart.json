@@ -1,0 +1,820 @@
+{
+  "id": "bf2dbb9c-b566-4ed0-bfbb-24f44b9ad1bb",
+  "projectId": "single-file",
+  "name": "typescript.analyzer.ts - File Structure",
+  "type": "file_specific",
+  "nodes": [
+    {
+      "id": "packages/backend/src/analysis/analyzers/typescript.analyzer.ts",
+      "type": "file",
+      "position": {
+        "x": 140,
+        "y": 50
+      },
+      "data": {
+        "label": "typescript.analyzer.ts",
+        "description": "File: packages/backend/src/analysis/analyzers/typescript.analyzer.ts",
+        "sourceLocation": {
+          "filePath": "packages/backend/src/analysis/analyzers/typescript.analyzer.ts",
+          "startLine": 1,
+          "endLine": 1,
+          "startColumn": 1,
+          "endColumn": 1
+        },
+        "complexity": 53,
+        "metadata": {
+          "language": "typescript"
+        }
+      },
+      "style": {
+        "backgroundColor": "#f3f4f6",
+        "borderColor": "#6b7280",
+        "borderWidth": 2,
+        "color": "#1f2937",
+        "fontSize": 14,
+        "fontWeight": "500",
+        "borderRadius": 8,
+        "width": 200,
+        "height": 80
+      },
+      "draggable": true,
+      "selectable": true
+    },
+    {
+      "id": "packages/backend/src/analysis/analyzers/typescript.analyzer.ts:TypeScriptAnalyzer",
+      "type": "class",
+      "position": {
+        "x": 140,
+        "y": 270
+      },
+      "data": {
+        "label": "TypeScriptAnalyzer",
+        "description": "Class: TypeScriptAnalyzer",
+        "sourceLocation": {
+          "filePath": "packages/backend/src/analysis/analyzers/typescript.analyzer.ts",
+          "startLine": 19,
+          "endLine": 328,
+          "startColumn": 1,
+          "endColumn": 2
+        },
+        "metadata": {
+          "methods": 13,
+          "properties": 1
+        }
+      },
+      "style": {
+        "backgroundColor": "#dcfce7",
+        "borderColor": "#16a34a",
+        "borderWidth": 2,
+        "color": "#15803d",
+        "fontSize": 14,
+        "fontWeight": "500",
+        "borderRadius": 8,
+        "width": 200,
+        "height": 80
+      },
+      "draggable": true,
+      "selectable": true
+    },
+    {
+      "id": "packages/backend/src/analysis/analyzers/typescript.analyzer.ts:TypeScriptAnalyzer.analyzeFile",
+      "type": "function",
+      "position": {
+        "x": 140,
+        "y": 490
+      },
+      "data": {
+        "label": "analyzeFile",
+        "description": "Method: TypeScriptAnalyzer.analyzeFile",
+        "sourceLocation": {
+          "filePath": "packages/backend/src/analysis/analyzers/typescript.analyzer.ts",
+          "startLine": 23,
+          "endLine": 87,
+          "startColumn": 3,
+          "endColumn": 4
+        },
+        "complexity": 11,
+        "metadata": {
+          "isAsync": true,
+          "parameters": 2,
+          "parentClass": "TypeScriptAnalyzer"
+        }
+      },
+      "style": {
+        "backgroundColor": "#dbeafe",
+        "borderColor": "#3b82f6",
+        "borderWidth": 2,
+        "color": "#1e40af",
+        "fontSize": 14,
+        "fontWeight": "500",
+        "borderRadius": 8,
+        "width": 200,
+        "height": 80
+      },
+      "draggable": true,
+      "selectable": true
+    },
+    {
+      "id": "packages/backend/src/analysis/analyzers/typescript.analyzer.ts:TypeScriptAnalyzer.extractImportDeclaration",
+      "type": "function",
+      "position": {
+        "x": 420,
+        "y": 490
+      },
+      "data": {
+        "label": "extractImportDeclaration",
+        "description": "Method: TypeScriptAnalyzer.extractImportDeclaration",
+        "sourceLocation": {
+          "filePath": "packages/backend/src/analysis/analyzers/typescript.analyzer.ts",
+          "startLine": 89,
+          "endLine": 126,
+          "startColumn": 3,
+          "endColumn": 4
+        },
+        "complexity": 6,
+        "metadata": {
+          "isAsync": false,
+          "parameters": 2,
+          "parentClass": "TypeScriptAnalyzer"
+        }
+      },
+      "style": {
+        "backgroundColor": "#dbeafe",
+        "borderColor": "#3b82f6",
+        "borderWidth": 2,
+        "color": "#1e40af",
+        "fontSize": 14,
+        "fontWeight": "500",
+        "borderRadius": 8,
+        "width": 200,
+        "height": 80
+      },
+      "draggable": true,
+      "selectable": true
+    },
+    {
+      "id": "packages/backend/src/analysis/analyzers/typescript.analyzer.ts:TypeScriptAnalyzer.extractExportDeclaration",
+      "type": "function",
+      "position": {
+        "x": 700,
+        "y": 490
+      },
+      "data": {
+        "label": "extractExportDeclaration",
+        "description": "Method: TypeScriptAnalyzer.extractExportDeclaration",
+        "sourceLocation": {
+          "filePath": "packages/backend/src/analysis/analyzers/typescript.analyzer.ts",
+          "startLine": 128,
+          "endLine": 146,
+          "startColumn": 3,
+          "endColumn": 4
+        },
+        "complexity": 4,
+        "metadata": {
+          "isAsync": false,
+          "parameters": 2,
+          "parentClass": "TypeScriptAnalyzer"
+        }
+      },
+      "style": {
+        "backgroundColor": "#dbeafe",
+        "borderColor": "#3b82f6",
+        "borderWidth": 2,
+        "color": "#1e40af",
+        "fontSize": 14,
+        "fontWeight": "500",
+        "borderRadius": 8,
+        "width": 200,
+        "height": 80
+      },
+      "draggable": true,
+      "selectable": true
+    },
+    {
+      "id": "packages/backend/src/analysis/analyzers/typescript.analyzer.ts:TypeScriptAnalyzer.extractFunctionDeclaration",
+      "type": "function",
+      "position": {
+        "x": 980,
+        "y": 490
+      },
+      "data": {
+        "label": "extractFunctionDeclaration",
+        "description": "Method: TypeScriptAnalyzer.extractFunctionDeclaration",
+        "sourceLocation": {
+          "filePath": "packages/backend/src/analysis/analyzers/typescript.analyzer.ts",
+          "startLine": 148,
+          "endLine": 164,
+          "startColumn": 3,
+          "endColumn": 4
+        },
+        "complexity": 1,
+        "metadata": {
+          "isAsync": false,
+          "parameters": 2,
+          "parentClass": "TypeScriptAnalyzer"
+        }
+      },
+      "style": {
+        "backgroundColor": "#dbeafe",
+        "borderColor": "#3b82f6",
+        "borderWidth": 2,
+        "color": "#1e40af",
+        "fontSize": 14,
+        "fontWeight": "500",
+        "borderRadius": 8,
+        "width": 200,
+        "height": 80
+      },
+      "draggable": true,
+      "selectable": true
+    },
+    {
+      "id": "packages/backend/src/analysis/analyzers/typescript.analyzer.ts:TypeScriptAnalyzer.extractClassDeclaration",
+      "type": "function",
+      "position": {
+        "x": 1260,
+        "y": 490
+      },
+      "data": {
+        "label": "extractClassDeclaration",
+        "description": "Method: TypeScriptAnalyzer.extractClassDeclaration",
+        "sourceLocation": {
+          "filePath": "packages/backend/src/analysis/analyzers/typescript.analyzer.ts",
+          "startLine": 166,
+          "endLine": 186,
+          "startColumn": 3,
+          "endColumn": 4
+        },
+        "complexity": 3,
+        "metadata": {
+          "isAsync": false,
+          "parameters": 2,
+          "parentClass": "TypeScriptAnalyzer"
+        }
+      },
+      "style": {
+        "backgroundColor": "#dbeafe",
+        "borderColor": "#3b82f6",
+        "borderWidth": 2,
+        "color": "#1e40af",
+        "fontSize": 14,
+        "fontWeight": "500",
+        "borderRadius": 8,
+        "width": 200,
+        "height": 80
+      },
+      "draggable": true,
+      "selectable": true
+    },
+    {
+      "id": "packages/backend/src/analysis/analyzers/typescript.analyzer.ts:TypeScriptAnalyzer.extractMethodDeclaration",
+      "type": "function",
+      "position": {
+        "x": 1540,
+        "y": 490
+      },
+      "data": {
+        "label": "extractMethodDeclaration",
+        "description": "Method: TypeScriptAnalyzer.extractMethodDeclaration",
+        "sourceLocation": {
+          "filePath": "packages/backend/src/analysis/analyzers/typescript.analyzer.ts",
+          "startLine": 188,
+          "endLine": 204,
+          "startColumn": 3,
+          "endColumn": 4
+        },
+        "complexity": 1,
+        "metadata": {
+          "isAsync": false,
+          "parameters": 2,
+          "parentClass": "TypeScriptAnalyzer"
+        }
+      },
+      "style": {
+        "backgroundColor": "#dbeafe",
+        "borderColor": "#3b82f6",
+        "borderWidth": 2,
+        "color": "#1e40af",
+        "fontSize": 14,
+        "fontWeight": "500",
+        "borderRadius": 8,
+        "width": 200,
+        "height": 80
+      },
+      "draggable": true,
+      "selectable": true
+    },
+    {
+      "id": "packages/backend/src/analysis/analyzers/typescript.analyzer.ts:TypeScriptAnalyzer.extractPropertyDeclaration",
+      "type": "function",
+      "position": {
+        "x": 1820,
+        "y": 490
+      },
+      "data": {
+        "label": "extractPropertyDeclaration",
+        "description": "Method: TypeScriptAnalyzer.extractPropertyDeclaration",
+        "sourceLocation": {
+          "filePath": "packages/backend/src/analysis/analyzers/typescript.analyzer.ts",
+          "startLine": 206,
+          "endLine": 214,
+          "startColumn": 3,
+          "endColumn": 4
+        },
+        "complexity": 1,
+        "metadata": {
+          "isAsync": false,
+          "parameters": 2,
+          "parentClass": "TypeScriptAnalyzer"
+        }
+      },
+      "style": {
+        "backgroundColor": "#dbeafe",
+        "borderColor": "#3b82f6",
+        "borderWidth": 2,
+        "color": "#1e40af",
+        "fontSize": 14,
+        "fontWeight": "500",
+        "borderRadius": 8,
+        "width": 200,
+        "height": 80
+      },
+      "draggable": true,
+      "selectable": true
+    },
+    {
+      "id": "packages/backend/src/analysis/analyzers/typescript.analyzer.ts:TypeScriptAnalyzer.extractSymbol",
+      "type": "function",
+      "position": {
+        "x": 2100,
+        "y": 490
+      },
+      "data": {
+        "label": "extractSymbol",
+        "description": "Method: TypeScriptAnalyzer.extractSymbol",
+        "sourceLocation": {
+          "filePath": "packages/backend/src/analysis/analyzers/typescript.analyzer.ts",
+          "startLine": 216,
+          "endLine": 238,
+          "startColumn": 3,
+          "endColumn": 4
+        },
+        "complexity": 4,
+        "metadata": {
+          "isAsync": false,
+          "parameters": 2,
+          "parentClass": "TypeScriptAnalyzer"
+        }
+      },
+      "style": {
+        "backgroundColor": "#dbeafe",
+        "borderColor": "#3b82f6",
+        "borderWidth": 2,
+        "color": "#1e40af",
+        "fontSize": 14,
+        "fontWeight": "500",
+        "borderRadius": 8,
+        "width": 200,
+        "height": 80
+      },
+      "draggable": true,
+      "selectable": true
+    },
+    {
+      "id": "packages/backend/src/analysis/analyzers/typescript.analyzer.ts:TypeScriptAnalyzer.getSourceLocation",
+      "type": "function",
+      "position": {
+        "x": 2380,
+        "y": 490
+      },
+      "data": {
+        "label": "getSourceLocation",
+        "description": "Method: TypeScriptAnalyzer.getSourceLocation",
+        "sourceLocation": {
+          "filePath": "packages/backend/src/analysis/analyzers/typescript.analyzer.ts",
+          "startLine": 240,
+          "endLine": 249,
+          "startColumn": 3,
+          "endColumn": 4
+        },
+        "complexity": 1,
+        "metadata": {
+          "isAsync": false,
+          "parameters": 2,
+          "parentClass": "TypeScriptAnalyzer"
+        }
+      },
+      "style": {
+        "backgroundColor": "#dbeafe",
+        "borderColor": "#3b82f6",
+        "borderWidth": 2,
+        "color": "#1e40af",
+        "fontSize": 14,
+        "fontWeight": "500",
+        "borderRadius": 8,
+        "width": 200,
+        "height": 80
+      },
+      "draggable": true,
+      "selectable": true
+    },
+    {
+      "id": "packages/backend/src/analysis/analyzers/typescript.analyzer.ts:TypeScriptAnalyzer.getVisibility",
+      "type": "function",
+      "position": {
+        "x": 2660,
+        "y": 490
+      },
+      "data": {
+        "label": "getVisibility",
+        "description": "Method: TypeScriptAnalyzer.getVisibility",
+        "sourceLocation": {
+          "filePath": "packages/backend/src/analysis/analyzers/typescript.analyzer.ts",
+          "startLine": 251,
+          "endLine": 255,
+          "startColumn": 3,
+          "endColumn": 4
+        },
+        "complexity": 3,
+        "metadata": {
+          "isAsync": false,
+          "parameters": 1,
+          "parentClass": "TypeScriptAnalyzer"
+        }
+      },
+      "style": {
+        "backgroundColor": "#dbeafe",
+        "borderColor": "#3b82f6",
+        "borderWidth": 2,
+        "color": "#1e40af",
+        "fontSize": 14,
+        "fontWeight": "500",
+        "borderRadius": 8,
+        "width": 200,
+        "height": 80
+      },
+      "draggable": true,
+      "selectable": true
+    },
+    {
+      "id": "packages/backend/src/analysis/analyzers/typescript.analyzer.ts:TypeScriptAnalyzer.getLanguageFromPath",
+      "type": "function",
+      "position": {
+        "x": 2940,
+        "y": 490
+      },
+      "data": {
+        "label": "getLanguageFromPath",
+        "description": "Method: TypeScriptAnalyzer.getLanguageFromPath",
+        "sourceLocation": {
+          "filePath": "packages/backend/src/analysis/analyzers/typescript.analyzer.ts",
+          "startLine": 257,
+          "endLine": 262,
+          "startColumn": 3,
+          "endColumn": 4
+        },
+        "complexity": 4,
+        "metadata": {
+          "isAsync": false,
+          "parameters": 1,
+          "parentClass": "TypeScriptAnalyzer"
+        }
+      },
+      "style": {
+        "backgroundColor": "#dbeafe",
+        "borderColor": "#3b82f6",
+        "borderWidth": 2,
+        "color": "#1e40af",
+        "fontSize": 14,
+        "fontWeight": "500",
+        "borderRadius": 8,
+        "width": 200,
+        "height": 80
+      },
+      "draggable": true,
+      "selectable": true
+    },
+    {
+      "id": "packages/backend/src/analysis/analyzers/typescript.analyzer.ts:TypeScriptAnalyzer.calculateComplexity",
+      "type": "function",
+      "position": {
+        "x": 3220,
+        "y": 490
+      },
+      "data": {
+        "label": "calculateComplexity",
+        "description": "Method: TypeScriptAnalyzer.calculateComplexity",
+        "sourceLocation": {
+          "filePath": "packages/backend/src/analysis/analyzers/typescript.analyzer.ts",
+          "startLine": 264,
+          "endLine": 299,
+          "startColumn": 3,
+          "endColumn": 4
+        },
+        "complexity": 13,
+        "metadata": {
+          "isAsync": false,
+          "parameters": 1,
+          "parentClass": "TypeScriptAnalyzer"
+        }
+      },
+      "style": {
+        "backgroundColor": "#dbeafe",
+        "borderColor": "#3b82f6",
+        "borderWidth": 2,
+        "color": "#1e40af",
+        "fontSize": 14,
+        "fontWeight": "500",
+        "borderRadius": 8,
+        "width": 200,
+        "height": 80
+      },
+      "draggable": true,
+      "selectable": true
+    },
+    {
+      "id": "packages/backend/src/analysis/analyzers/typescript.analyzer.ts:TypeScriptAnalyzer.calculateFunctionComplexity",
+      "type": "function",
+      "position": {
+        "x": 3500,
+        "y": 490
+      },
+      "data": {
+        "label": "calculateFunctionComplexity",
+        "description": "Method: TypeScriptAnalyzer.calculateFunctionComplexity",
+        "sourceLocation": {
+          "filePath": "packages/backend/src/analysis/analyzers/typescript.analyzer.ts",
+          "startLine": 301,
+          "endLine": 327,
+          "startColumn": 3,
+          "endColumn": 4
+        },
+        "complexity": 13,
+        "metadata": {
+          "isAsync": false,
+          "parameters": 1,
+          "parentClass": "TypeScriptAnalyzer"
+        }
+      },
+      "style": {
+        "backgroundColor": "#dbeafe",
+        "borderColor": "#3b82f6",
+        "borderWidth": 2,
+        "color": "#1e40af",
+        "fontSize": 14,
+        "fontWeight": "500",
+        "borderRadius": 8,
+        "width": 200,
+        "height": 80
+      },
+      "draggable": true,
+      "selectable": true
+    }
+  ],
+  "edges": [
+    {
+      "id": "packages/backend/src/analysis/analyzers/typescript.analyzer.ts-packages/backend/src/analysis/analyzers/typescript.analyzer.ts:TypeScriptAnalyzer",
+      "source": "packages/backend/src/analysis/analyzers/typescript.analyzer.ts",
+      "target": "packages/backend/src/analysis/analyzers/typescript.analyzer.ts:TypeScriptAnalyzer",
+      "type": "function_call",
+      "data": {
+        "callType": "sync",
+        "isAsync": false,
+        "metadata": {}
+      },
+      "style": {
+        "stroke": "#3b82f6",
+        "strokeWidth": 2
+      },
+      "animated": false
+    },
+    {
+      "id": "packages/backend/src/analysis/analyzers/typescript.analyzer.ts:TypeScriptAnalyzer-packages/backend/src/analysis/analyzers/typescript.analyzer.ts:TypeScriptAnalyzer.analyzeFile",
+      "source": "packages/backend/src/analysis/analyzers/typescript.analyzer.ts:TypeScriptAnalyzer",
+      "target": "packages/backend/src/analysis/analyzers/typescript.analyzer.ts:TypeScriptAnalyzer.analyzeFile",
+      "type": "function_call",
+      "data": {
+        "callType": "sync",
+        "isAsync": false,
+        "metadata": {}
+      },
+      "style": {
+        "stroke": "#3b82f6",
+        "strokeWidth": 2
+      },
+      "animated": false
+    },
+    {
+      "id": "packages/backend/src/analysis/analyzers/typescript.analyzer.ts:TypeScriptAnalyzer-packages/backend/src/analysis/analyzers/typescript.analyzer.ts:TypeScriptAnalyzer.extractImportDeclaration",
+      "source": "packages/backend/src/analysis/analyzers/typescript.analyzer.ts:TypeScriptAnalyzer",
+      "target": "packages/backend/src/analysis/analyzers/typescript.analyzer.ts:TypeScriptAnalyzer.extractImportDeclaration",
+      "type": "function_call",
+      "data": {
+        "callType": "sync",
+        "isAsync": false,
+        "metadata": {}
+      },
+      "style": {
+        "stroke": "#3b82f6",
+        "strokeWidth": 2
+      },
+      "animated": false
+    },
+    {
+      "id": "packages/backend/src/analysis/analyzers/typescript.analyzer.ts:TypeScriptAnalyzer-packages/backend/src/analysis/analyzers/typescript.analyzer.ts:TypeScriptAnalyzer.extractExportDeclaration",
+      "source": "packages/backend/src/analysis/analyzers/typescript.analyzer.ts:TypeScriptAnalyzer",
+      "target": "packages/backend/src/analysis/analyzers/typescript.analyzer.ts:TypeScriptAnalyzer.extractExportDeclaration",
+      "type": "function_call",
+      "data": {
+        "callType": "sync",
+        "isAsync": false,
+        "metadata": {}
+      },
+      "style": {
+        "stroke": "#3b82f6",
+        "strokeWidth": 2
+      },
+      "animated": false
+    },
+    {
+      "id": "packages/backend/src/analysis/analyzers/typescript.analyzer.ts:TypeScriptAnalyzer-packages/backend/src/analysis/analyzers/typescript.analyzer.ts:TypeScriptAnalyzer.extractFunctionDeclaration",
+      "source": "packages/backend/src/analysis/analyzers/typescript.analyzer.ts:TypeScriptAnalyzer",
+      "target": "packages/backend/src/analysis/analyzers/typescript.analyzer.ts:TypeScriptAnalyzer.extractFunctionDeclaration",
+      "type": "function_call",
+      "data": {
+        "callType": "sync",
+        "isAsync": false,
+        "metadata": {}
+      },
+      "style": {
+        "stroke": "#3b82f6",
+        "strokeWidth": 2
+      },
+      "animated": false
+    },
+    {
+      "id": "packages/backend/src/analysis/analyzers/typescript.analyzer.ts:TypeScriptAnalyzer-packages/backend/src/analysis/analyzers/typescript.analyzer.ts:TypeScriptAnalyzer.extractClassDeclaration",
+      "source": "packages/backend/src/analysis/analyzers/typescript.analyzer.ts:TypeScriptAnalyzer",
+      "target": "packages/backend/src/analysis/analyzers/typescript.analyzer.ts:TypeScriptAnalyzer.extractClassDeclaration",
+      "type": "function_call",
+      "data": {
+        "callType": "sync",
+        "isAsync": false,
+        "metadata": {}
+      },
+      "style": {
+        "stroke": "#3b82f6",
+        "strokeWidth": 2
+      },
+      "animated": false
+    },
+    {
+      "id": "packages/backend/src/analysis/analyzers/typescript.analyzer.ts:TypeScriptAnalyzer-packages/backend/src/analysis/analyzers/typescript.analyzer.ts:TypeScriptAnalyzer.extractMethodDeclaration",
+      "source": "packages/backend/src/analysis/analyzers/typescript.analyzer.ts:TypeScriptAnalyzer",
+      "target": "packages/backend/src/analysis/analyzers/typescript.analyzer.ts:TypeScriptAnalyzer.extractMethodDeclaration",
+      "type": "function_call",
+      "data": {
+        "callType": "sync",
+        "isAsync": false,
+        "metadata": {}
+      },
+      "style": {
+        "stroke": "#3b82f6",
+        "strokeWidth": 2
+      },
+      "animated": false
+    },
+    {
+      "id": "packages/backend/src/analysis/analyzers/typescript.analyzer.ts:TypeScriptAnalyzer-packages/backend/src/analysis/analyzers/typescript.analyzer.ts:TypeScriptAnalyzer.extractPropertyDeclaration",
+      "source": "packages/backend/src/analysis/analyzers/typescript.analyzer.ts:TypeScriptAnalyzer",
+      "target": "packages/backend/src/analysis/analyzers/typescript.analyzer.ts:TypeScriptAnalyzer.extractPropertyDeclaration",
+      "type": "function_call",
+      "data": {
+        "callType": "sync",
+        "isAsync": false,
+        "metadata": {}
+      },
+      "style": {
+        "stroke": "#3b82f6",
+        "strokeWidth": 2
+      },
+      "animated": false
+    },
+    {
+      "id": "packages/backend/src/analysis/analyzers/typescript.analyzer.ts:TypeScriptAnalyzer-packages/backend/src/analysis/analyzers/typescript.analyzer.ts:TypeScriptAnalyzer.extractSymbol",
+      "source": "packages/backend/src/analysis/analyzers/typescript.analyzer.ts:TypeScriptAnalyzer",
+      "target": "packages/backend/src/analysis/analyzers/typescript.analyzer.ts:TypeScriptAnalyzer.extractSymbol",
+      "type": "function_call",
+      "data": {
+        "callType": "sync",
+        "isAsync": false,
+        "metadata": {}
+      },
+      "style": {
+        "stroke": "#3b82f6",
+        "strokeWidth": 2
+      },
+      "animated": false
+    },
+    {
+      "id": "packages/backend/src/analysis/analyzers/typescript.analyzer.ts:TypeScriptAnalyzer-packages/backend/src/analysis/analyzers/typescript.analyzer.ts:TypeScriptAnalyzer.getSourceLocation",
+      "source": "packages/backend/src/analysis/analyzers/typescript.analyzer.ts:TypeScriptAnalyzer",
+      "target": "packages/backend/src/analysis/analyzers/typescript.analyzer.ts:TypeScriptAnalyzer.getSourceLocation",
+      "type": "function_call",
+      "data": {
+        "callType": "sync",
+        "isAsync": false,
+        "metadata": {}
+      },
+      "style": {
+        "stroke": "#3b82f6",
+        "strokeWidth": 2
+      },
+      "animated": false
+    },
+    {
+      "id": "packages/backend/src/analysis/analyzers/typescript.analyzer.ts:TypeScriptAnalyzer-packages/backend/src/analysis/analyzers/typescript.analyzer.ts:TypeScriptAnalyzer.getVisibility",
+      "source": "packages/backend/src/analysis/analyzers/typescript.analyzer.ts:TypeScriptAnalyzer",
+      "target": "packages/backend/src/analysis/analyzers/typescript.analyzer.ts:TypeScriptAnalyzer.getVisibility",
+      "type": "function_call",
+      "data": {
+        "callType": "sync",
+        "isAsync": false,
+        "metadata": {}
+      },
+      "style": {
+        "stroke": "#3b82f6",
+        "strokeWidth": 2
+      },
+      "animated": false
+    },
+    {
+      "id": "packages/backend/src/analysis/analyzers/typescript.analyzer.ts:TypeScriptAnalyzer-packages/backend/src/analysis/analyzers/typescript.analyzer.ts:TypeScriptAnalyzer.getLanguageFromPath",
+      "source": "packages/backend/src/analysis/analyzers/typescript.analyzer.ts:TypeScriptAnalyzer",
+      "target": "packages/backend/src/analysis/analyzers/typescript.analyzer.ts:TypeScriptAnalyzer.getLanguageFromPath",
+      "type": "function_call",
+      "data": {
+        "callType": "sync",
+        "isAsync": false,
+        "metadata": {}
+      },
+      "style": {
+        "stroke": "#3b82f6",
+        "strokeWidth": 2
+      },
+      "animated": false
+    },
+    {
+      "id": "packages/backend/src/analysis/analyzers/typescript.analyzer.ts:TypeScriptAnalyzer-packages/backend/src/analysis/analyzers/typescript.analyzer.ts:TypeScriptAnalyzer.calculateComplexity",
+      "source": "packages/backend/src/analysis/analyzers/typescript.analyzer.ts:TypeScriptAnalyzer",
+      "target": "packages/backend/src/analysis/analyzers/typescript.analyzer.ts:TypeScriptAnalyzer.calculateComplexity",
+      "type": "function_call",
+      "data": {
+        "callType": "sync",
+        "isAsync": false,
+        "metadata": {}
+      },
+      "style": {
+        "stroke": "#3b82f6",
+        "strokeWidth": 2
+      },
+      "animated": false
+    },
+    {
+      "id": "packages/backend/src/analysis/analyzers/typescript.analyzer.ts:TypeScriptAnalyzer-packages/backend/src/analysis/analyzers/typescript.analyzer.ts:TypeScriptAnalyzer.calculateFunctionComplexity",
+      "source": "packages/backend/src/analysis/analyzers/typescript.analyzer.ts:TypeScriptAnalyzer",
+      "target": "packages/backend/src/analysis/analyzers/typescript.analyzer.ts:TypeScriptAnalyzer.calculateFunctionComplexity",
+      "type": "function_call",
+      "data": {
+        "callType": "sync",
+        "isAsync": false,
+        "metadata": {}
+      },
+      "style": {
+        "stroke": "#3b82f6",
+        "strokeWidth": 2
+      },
+      "animated": false
+    }
+  ],
+  "layout": {
+    "algorithm": "hierarchical",
+    "direction": "TB",
+    "spacing": {
+      "nodeSpacing": 80,
+      "rankSpacing": 120,
+      "edgeSpacing": 15
+    },
+    "alignment": "center"
+  },
+  "metadata": {
+    "totalNodes": 15,
+    "totalEdges": 14,
+    "maxDepth": 2,
+    "analysisVersion": "1.0.0",
+    "generatedAt": "2026-02-09T14:49:35.279Z",
+    "filters": []
+  },
+  "createdAt": "2026-02-09T14:49:35.279Z",
+  "updatedAt": "2026-02-09T14:49:35.279Z"
+}

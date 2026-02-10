@@ -33,9 +33,12 @@ export default function HomePage() {
               <Github className="w-5 h-5" />
               <span>GitHub</span>
             </Link>
-            <button className="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition-colors">
+            <Link
+              href="/app"
+              className="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition-colors"
+            >
               Get Started
-            </button>
+            </Link>
           </div>
         </nav>
       </header>
@@ -62,7 +65,8 @@ export default function HomePage() {
           </p>
 
           <div className="flex flex-col sm:flex-row items-center justify-center space-y-4 sm:space-y-0 sm:space-x-4 mb-12">
-            <button 
+            <Link
+              href="/app"
               className="bg-blue-600 text-white px-8 py-4 rounded-lg text-lg font-semibold hover:bg-blue-700 transition-all duration-200 flex items-center space-x-2 shadow-lg hover:shadow-xl transform hover:-translate-y-1"
               onMouseEnter={() => setIsHovered(true)}
               onMouseLeave={() => setIsHovered(false)}
@@ -70,7 +74,7 @@ export default function HomePage() {
               <Upload className="w-5 h-5" />
               <span>Upload Your Code</span>
               <ArrowRight className={`w-5 h-5 transition-transform duration-200 ${isHovered ? 'translate-x-1' : ''}`} />
-            </button>
+            </Link>
             
             <Link 
               href="/demo" 
@@ -156,9 +160,12 @@ export default function HomePage() {
             Join thousands of developers who are already using CodeMapr to understand their codebases better.
           </p>
           <div className="flex flex-col sm:flex-row items-center justify-center space-y-4 sm:space-y-0 sm:space-x-4">
-            <button className="bg-white text-blue-600 px-8 py-4 rounded-lg text-lg font-semibold hover:bg-gray-100 transition-colors">
+            <Link
+              href="/app"
+              className="bg-white text-blue-600 px-8 py-4 rounded-lg text-lg font-semibold hover:bg-gray-100 transition-colors"
+            >
               Start Free Trial
-            </button>
+            </Link>
             <Link 
               href="https://github.com/SahitaPersonal/codemapr" 
               target="_blank"
