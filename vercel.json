@@ -12,9 +12,6 @@
       "dest": "packages/frontend/$1"
     }
   ],
-  "env": {
-    "NEXT_PUBLIC_API_URL": "@api_url"
-  },
   "github": {
     "enabled": true,
     "autoAlias": true,
