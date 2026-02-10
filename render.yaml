@@ -1,0 +1,31 @@
+services:
+  - type: web
+    name: codemapr-backend
+    env: node
+    region: oregon
+    plan: free
+    buildCommand: cd packages/backend && npm install && npm run build
+    startCommand: cd packages/backend && npm run start:prod
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: PORT
+        value: 3001
+      - key: REDIS_HOST
+        sync: false
+      - key: REDIS_PORT
+        sync: false
+      - key: DATABASE_URL
+        sync: false
+    healthCheckPath: /health
+
+  - type: web
+    name: codemapr-frontend
+    env: static
+    region: oregon
+    plan: free
+    buildCommand: cd packages/frontend && npm install && npm run build
+    staticPublishPath: packages/frontend/.next
+    envVars:
+      - key: NEXT_PUBLIC_API_URL
+        value: https://codemapr-backend.onrender.com
