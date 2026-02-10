@@ -1,20 +1,6 @@
 {
-  "version": 2,
-  "builds": [
-    {
-      "src": "packages/frontend/package.json",
-      "use": "@vercel/next"
-    }
-  ],
-  "routes": [
-    {
-      "src": "/(.*)",
-      "dest": "packages/frontend/$1"
-    }
-  ],
-  "github": {
-    "enabled": true,
-    "autoAlias": true,
-    "silent": false
-  }
+  "buildCommand": "npm install --workspaces && npm run build --workspace=packages/shared && npm run build --workspace=packages/frontend",
+  "installCommand": "npm install --workspaces",
+  "framework": "nextjs",
+  "outputDirectory": "packages/frontend/.next"
 }
