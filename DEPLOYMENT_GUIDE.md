@@ -10,57 +10,61 @@ This guide covers deploying CodeMapr to various platforms.
 
 ## Deployment Options
 
-### Option 1: Vercel (Frontend) + Railway (Backend) - Recommended
+### Option 1: GitHub → Railway (Backend) + Vercel (Frontend) - Recommended ✅
 
-#### Backend Deployment (Railway)
+#### Backend Deployment (Railway via GitHub)
 
 1. **Sign up for Railway**
    - Go to https://railway.app
-   - Sign up with GitHub
+   - **Sign in with GitHub** (this connects your repositories)
 
-2. **Create New Project**
+2. **Deploy from GitHub**
    - Click "New Project"
-   - Select "Deploy from GitHub repo"
+   - Select **"Deploy from GitHub repo"**
    - Choose your `codemapr` repository
+   - Railway will automatically detect the Dockerfile
 
 3. **Configure Backend Service**
-   - Railway will auto-detect the Dockerfile
+   - Railway auto-detects `railway.json` configuration
    - Set environment variables:
      ```
      NODE_ENV=production
      PORT=3001
      ```
 
-4. **Deploy**
-   - Railway will automatically build and deploy
+4. **Automatic Deployments**
+   - ✅ Every push to `main` branch auto-deploys
+   - ✅ No manual deployment needed
    - Note the public URL (e.g., `https://codemapr-backend.up.railway.app`)
 
-#### Frontend Deployment (Vercel)
+#### Frontend Deployment (Vercel via GitHub)
 
 1. **Sign up for Vercel**
    - Go to https://vercel.com
-   - Sign up with GitHub
+   - **Sign in with GitHub** (this connects your repositories)
 
-2. **Import Project**
+2. **Import from GitHub**
    - Click "Add New" → "Project"
-   - Import your `codemapr` repository
+   - Select your `codemapr` repository from the list
+   - Vercel will auto-detect Next.js
 
 3. **Configure Build Settings**
-   - Framework Preset: Next.js
+   - Framework Preset: Next.js (auto-detected)
    - Root Directory: `packages/frontend`
-   - Build Command: `npm run build`
-   - Output Directory: `.next`
+   - Build Command: `npm run build` (auto-detected)
+   - Output Directory: `.next` (auto-detected)
 
 4. **Set Environment Variables**
    ```
    NEXT_PUBLIC_API_URL=https://your-backend-url.up.railway.app
    ```
 
-5. **Deploy**
-   - Click "Deploy"
-   - Vercel will build and deploy automatically
+5. **Automatic Deployments**
+   - ✅ Every push to `main` branch auto-deploys
+   - ✅ Preview deployments for pull requests
+   - ✅ No manual deployment needed
 
-### Option 2: Render (Full Stack)
+### Option 2: GitHub → Render (Full Stack)
 
 1. **Sign up for Render**
    - Go to https://render.com
