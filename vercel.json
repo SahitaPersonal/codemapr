@@ -1,6 +1,4 @@
 {
-  "buildCommand": "npm install --workspaces && npm run build --workspace=packages/shared && npm run build --workspace=packages/frontend",
-  "installCommand": "npm install --workspaces",
-  "framework": "nextjs",
+  "buildCommand": "cd packages/shared && npm install && npm run build && cd ../frontend && npm install && npm run build",
   "outputDirectory": "packages/frontend/.next"
 }
